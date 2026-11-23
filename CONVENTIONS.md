@@ -170,14 +170,15 @@ Every workflow pins its toolchain (`rust-toolchain.toml`, `.node-version`, `.pyt
 
 The first lines are always the same. Sections after that are used only when they apply, in this order:
 
-1. Icon or hero screenshot (`docs/<name>.png` or `.github/assets/`).
-2. `# Name` and the one-liner.
-3. A short pitch: what it is and who it's for.
-4. **Features** or **How it works** / **Controls** / **Settings** (a table).
-5. **Install**: Homebrew first, then Releases/itch. Include the Gatekeeper note when the build is self-signed.
-6. **Develop**: the commands for running, testing and building.
-7. **Releases**: the bump table, what CI does, and the secrets it needs.
-8. **Credits** / **License**.
+1. `# Name`, with the app icon in the heading when there is one: `# <img src="…" width="40" height="40" alt="" align="top"> Name`. Without `align="top"`, GitHub sits the icon on the baseline and it rides above the title.
+2. The one-liner, word for word the GitHub description.
+3. The hero screenshot (`docs/<name>.png` or `.github/assets/`).
+4. A short pitch: what it is and who it's for.
+5. **Features** or **How it works** / **Controls** / **Settings** (a table).
+6. **Install**: Homebrew first, then Releases/itch. Include the Gatekeeper note when the build is self-signed.
+7. **Develop**: the commands for running, testing and building.
+8. **Releases**: the bump table, what CI does, and the secrets it needs.
+9. **Credits** / **License**.
 
 - No badges, except a single CI badge on public OSS projects.
 - Screenshots are made by a script or the screenshot skill, never by hand. That way they can be retaken.
