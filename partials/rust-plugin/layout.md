@@ -1,0 +1,9 @@
+- `plugin/src/engine.rs`: the DSP, in f64, with no host types, so `cargo test` runs it offline.
+- `plugin/src/params.rs`: the parameters. Their defaults come from `Settings::default()`, and `settings()` turns them into the engine's `Settings`.
+- `plugin/src/lib.rs`: host plumbing, plugin IDs and `PAGE` (title, window size, version).
+- `plugin/src/editor.rs`, `bridge.rs`: the webview editor and its message bridge. Don't add another channel to `editor.rs`; use `WebEditor::with_feed`.
+- `plugin/tests/`: engine tests, golden renders in `golden/`, real DI recordings in `di/`, and `mock.rs`, which keeps `ui/mock.json` in step with the params.
+- `ui/index.html`: the editor page, compiled into the plugin. `ui/mock.json` drives it in a browser.
+- `xtask/`, `bundler.toml`: nice-plug's bundler.
+- `scripts/`: install, clap-validator, screenshot and release.
+- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot`, `port-jsfx` and `bless-goldens`. Use them rather than working from memory.

@@ -38,6 +38,29 @@ stack:
     Mac app (SwiftPM): swift-app
     Something else (version from tags only): other
 
+crate:
+  type: str
+  default: "{{ name | replace('-', '_') }}"
+  when: false
+
+type_name:
+  type: str
+  default: "{{ display_name | regex_replace('[^A-Za-z0-9]', '') }}"
+  when: false
+
+clap_id:
+  type: str
+  help: CLAP plugin ID (never change it after the first release)
+  default: "com.danmarino.{{ name | replace('-', '') }}"
+  when: "{{ stack == 'rust-plugin' }}"
+
+vst3_class_id:
+  type: str
+  help: VST3 class ID, exactly 16 ASCII characters (never change it after the first release)
+  default: "{{ ((display_name | regex_replace('[^A-Za-z0-9]', '')) ~ 'DanMarino________')[:16] }}"
+  when: "{{ stack == 'rust-plugin' }}"
+  validator: "{% if vst3_class_id | length != 16 %}Must be exactly 16 characters{% endif %}"
+
 public:
   type: bool
   help: Public repo?
