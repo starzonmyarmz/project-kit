@@ -1,6 +1,8 @@
 ```sh
 cargo test                                  # engine tests and golden renders, offline
-BLESS=1 cargo test                          # rewrite golden renders and ui/mock.json after an intended change
+{% if starter %}BLESS=1 cargo test                          # rewrite golden renders and ui/mock.json after an intended change
+{%- else %}BLESS=1 cargo test                          # rewrite golden renders after an intended change to the sound
+{%- endif %}
 cargo fmt --all && cargo clippy --workspace --all-targets -- -D warnings
 cargo xtask bundle {{ name }} --release     # target/bundled/{{ display_name }}.{vst3,clap}
 scripts/install.sh                          # bundle, sign ad hoc and install on macOS as X.Y.Z-dev+<sha>

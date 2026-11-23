@@ -21,7 +21,9 @@ Run `scripts/clap-validator.sh` after any DSP change, not just in CI.
 ### Editor
 
 - The window size is set in `PAGE.size` in `lib.rs` and by the page's outer element in `ui/index.html`. Change them together.
-- The browser preview gets cached: add `?v=N` after each edit. Don't write parameter specs into the page; the mock reads `ui/mock.json`. After adding, renaming or reformatting a parameter, run `BLESS=1 cargo test` and commit `ui/mock.json` with the change.
+{% if starter %}- The browser preview gets cached: add `?v=N` after each edit. Don't write parameter specs into the page; the mock reads `ui/mock.json`. After adding, renaming or reformatting a parameter, run `BLESS=1 cargo test` and commit `ui/mock.json` with the change.
+{%- else %}- The browser preview gets cached: add `?v=N` after each edit. Keep the mock's `specs` in `ui/index.html` in step with the plugin's parameters, including the skew of any skewed range. (This plugin predates the kit's generated `ui/mock.json`.)
+{%- endif %}
 - To show the page something that isn't a parameter (an LED, a scope, a meter), use `WebEditor::with_feed`. Share the state from the audio thread through atomics, and have the closure return a message only when something changed, since it runs every frame.
 - SVG reused through `<use>` doesn't get page CSS rules. Stamp it from a `<template>` instead, or put attributes on the elements themselves.
 - Fonts can't load from the network: embed them as base64 `@font-face` data URLs, and keep the file and its license in `ui/fonts`.

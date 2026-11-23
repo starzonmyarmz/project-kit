@@ -13,8 +13,8 @@ listened.
    wasn't expected from the change, stop and find out why instead of
    blessing it.
 2. Rewrite them: `BLESS=1 cargo test`, then `cargo test` again to
-   check they pass. This also rewrites `ui/mock.json`, which only
-   changes when the params did.
+   check they pass.{% if starter %} This also rewrites `ui/mock.json`, which only
+   changes when the params did.{% endif %}
 3. List each changed file in `plugin/tests/golden`, say what should
    sound different and why, and offer to play them with
    `afplay plugin/tests/golden/<name>.wav`. For a subtle change, also
