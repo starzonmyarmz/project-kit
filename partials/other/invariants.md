@@ -1,0 +1,1 @@
+- Tags are always `v` + the exact version. A tag without the `v` never triggers the release workflow.

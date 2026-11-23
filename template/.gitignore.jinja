@@ -1,0 +1,14 @@
+.DS_Store
+.env
+.claude/settings.local.json
+.playwright-mcp/
+.screenshots/
+{%- if stack == 'rust-plugin' %}
+target/
+{%- elif stack == 'swift-app' %}
+.build/
+.swiftpm/
+dist/
+*.p12
+*.pem
+{%- endif %}

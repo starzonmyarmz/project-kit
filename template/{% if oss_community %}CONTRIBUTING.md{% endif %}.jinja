@@ -1,0 +1,21 @@
+# Contributing to {{ display_name }}
+
+Report bugs and request features through the [issue forms](https://github.com/{{ owner }}/{{ name }}/issues/new/choose). Report security problems privately as described in [SECURITY.md](SECURITY.md). Everyone taking part follows the [code of conduct](CODE_OF_CONDUCT.md).
+
+## Commands
+
+{% include 'partials/' ~ stack ~ '/commands.md' %}
+
+## Rules of the road
+
+- **Tests ship with features.** Every change to behavior lands with tests in the same commit.
+- **Changelog entries ship with changes people notice.** Any `feat`, `fix` or `perf` commit adds a line under `## [Unreleased]` in `CHANGELOG.md`. CI checks this on PRs.
+- **One concern per PR.** Split unrelated changes.
+
+## Commit style
+
+[Conventional Commits](https://www.conventionalcommits.org) with Title-Case scopes: `feat(Engine): add a tone control`. Keep the subject under about 50 characters, and use the body to explain why.
+
+## Releases
+
+The maintainer runs `scripts/release`, which works out the version from the commits, tags it and pushes. CI builds and publishes from the tag.

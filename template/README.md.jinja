@@ -1,0 +1,42 @@
+{% if stack == 'rust-plugin' -%}
+<img src="docs/{{ name }}.png" alt="{{ display_name }}" width="400">
+
+{% endif -%}
+# {{ display_name }}
+
+{{ description }}
+
+{% include 'partials/' ~ stack ~ '/readme-install.md' %}
+
+## Develop
+
+{% include 'partials/' ~ stack ~ '/commands.md' %}
+
+## Releases
+
+Versions follow [SemVer](https://semver.org), and the commits since the last release decide the bump:
+
+| Commits since the last release | Bump |
+|---|---|
+| a `!` or `BREAKING CHANGE:` footer | major (minor before 1.0) |
+| `feat` | minor |
+| `fix`, `perf`, `revert` | patch |
+| anything else | no release |
+
+`scripts/release` shows the computed bump and the changelog, then commits, tags `vX.Y.Z` and pushes. Pass `patch`, `minor`, `major` or an exact version to override, and `--dry-run` to only look. The tag runs `.github/workflows/release.yml`.
+{%- set secrets = [] %}
+{%- if 'homebrew-cask' in ships or 'homebrew-formula' in ships %}{% set _ = secrets.append('`HOMEBREW_TAP_TOKEN`: a fine-grained token with Contents read and write on `' ~ owner ~ '/homebrew-tap`') %}{% endif %}
+{%- if 'itch' in ships %}{% set _ = secrets.append('`BUTLER_API_KEY`: an itch.io API key, plus the repo variable `ITCH_TARGET` (`user/game:channel`)') %}{% endif %}
+{%- if secrets %}
+
+The release workflow needs these repo secrets:
+{% for secret in secrets %}
+- {{ secret }}
+{%- endfor %}
+{%- endif %}
+
+See [CHANGELOG.md](CHANGELOG.md) for what changed in each version.
+
+## License
+
+[MIT](LICENSE)

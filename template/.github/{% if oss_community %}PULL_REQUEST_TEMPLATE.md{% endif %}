@@ -1,0 +1,13 @@
+## Summary
+
+## Changelog
+
+- [ ] Added a line under `## [Unreleased]` in `CHANGELOG.md`, or
+- [ ] This change needs no entry (docs, chore, refactor, tests)
+
+## Tests
+
+- [ ] Added or updated tests covering the change, or
+- [ ] There's no testable logic in it
+
+## Manual verification

@@ -1,0 +1,45 @@
+# {{ display_name }}
+
+{{ description }}
+{%- if design_doc or voice_doc %}
+
+Read before working:
+{%- if design_doc %}
+- `DESIGN.md` before touching anything people see.
+{%- endif %}
+{%- if voice_doc %}
+- `VOICE.md` before writing words people read.
+{%- endif %}
+{%- endif %}
+
+## Commands
+
+{% include 'partials/' ~ stack ~ '/commands.md' %}
+
+## Layout
+
+{% include 'partials/' ~ stack ~ '/layout.md' %}
+
+## Invariants and footguns
+
+What was learned the hard way. Add to this list whenever something breaks in a way the code doesn't make obvious.
+
+{% include 'partials/' ~ stack ~ '/invariants.md' %}
+
+## Conventions
+
+- Conventional Commits with Title-Case scopes: `feat(Engine): …`. The body explains why.
+- Tests ship in the same commit as the change. Pure logic is tested; the UI or host shell stays thin.
+- A `feat`, `fix` or `perf` commit that someone using {{ display_name }} would notice adds a line under `## [Unreleased]` in `CHANGELOG.md`, in the same commit, written for them, not as a code summary.
+{%- if public %}
+- This repo is public. Keep real names, logins, paths and work data out of code, fixtures, docs, the changelog and commits.
+{%- endif %}
+{%- if stack == 'rust-plugin' %}
+- Breaking means a renamed parameter ID or a preset that no longer loads.
+{%- endif %}
+
+## Releasing
+
+Releases happen only when asked. Never bump, tag or publish on your own.
+
+`scripts/release` works out the bump from commits since the last tag, finalizes the changelog, commits `chore(Release): X.Y.Z`, tags `vX.Y.Z` and pushes. The tag triggers `.github/workflows/release.yml`.

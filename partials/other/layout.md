@@ -1,0 +1,1 @@
+- `scripts/`: release tooling (`release`, `version.sh`, `changelog-notes`, `check-changelog`).

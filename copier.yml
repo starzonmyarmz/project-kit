@@ -1,0 +1,72 @@
+_subdirectory: template
+_min_copier_version: "9.4"
+_answers_file: .copier-answers.yml
+_exclude:
+  - .DS_Store
+
+name:
+  type: str
+  help: Repo and crate/package name (kebab-case)
+  validator: "{% if not (name | regex_search('^[a-z][a-z0-9-]*$')) %}Use lowercase letters, digits and dashes{% endif %}"
+
+display_name:
+  type: str
+  help: Name people see
+  default: "{{ name | replace('-', ' ') | title }}"
+
+description:
+  type: str
+  help: One sentence, used for the README one-liner and the GitHub description
+
+owner:
+  type: str
+  default: starzonmyarmz
+
+author:
+  type: str
+  default: Daniel Marino
+
+year:
+  type: int
+  help: Copyright year
+
+stack:
+  type: str
+  help: What kind of project
+  choices:
+    Rust audio plugin (VST3 + CLAP): rust-plugin
+    Mac app (SwiftPM): swift-app
+    Something else (version from tags only): other
+
+public:
+  type: bool
+  help: Public repo?
+  default: true
+
+ships:
+  type: str
+  help: Where releases go
+  multiselect: true
+  default: [github-release]
+  choices:
+    GitHub release: github-release
+    Homebrew cask: homebrew-cask
+    Homebrew formula: homebrew-formula
+    itch.io: itch
+    GitHub Pages site: pages
+
+design_doc:
+  type: bool
+  help: Add DESIGN.md (anything with a UI)?
+  default: "{{ stack in ['rust-plugin', 'swift-app'] }}"
+
+voice_doc:
+  type: bool
+  help: Add VOICE.md (anything with copy or personality)?
+  default: false
+
+oss_community:
+  type: bool
+  help: Add CONTRIBUTING, SECURITY, CODE_OF_CONDUCT and issue forms?
+  default: false
+  when: "{{ public }}"
