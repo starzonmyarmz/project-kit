@@ -1,11 +1,11 @@
 ---
-name: dm-release
-description: Release a project made from project-kit - preview the bump that scripts/release computes from the commits, get a yes, run it, and watch the release workflow until the GitHub release is up. Only when the user types /dm-release.
+name: pk-release
+description: Release a project made from project-kit - preview the bump that scripts/release computes from the commits, get a yes, run it, and watch the release workflow until the GitHub release is up. Only when the user types /pk-release.
 argument-hint: [patch|minor|major|X.Y.Z]
 disable-model-invocation: true
 ---
 
-# /dm-release
+# /pk-release
 
 Arguments: `$ARGUMENTS`, an optional override for the bump.
 
@@ -15,7 +15,7 @@ Releasing is outward-facing: it pushes a tag, publishes a release and may update
 
 Run `scripts/release $ARGUMENTS --dry-run`.
 
-- If it says the changelog is empty, run `/dm-changelog` first, then come back.
+- If it says the changelog is empty, run `/pk-changelog` first, then come back.
 - If it says there's nothing to release, say so and stop, unless the user passed an explicit bump.
 - Any other preflight error (not on main, dirty tree, behind origin): report it and stop. Don't fix it on your own.
 

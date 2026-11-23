@@ -1,10 +1,10 @@
 ---
-name: dm-doctor
-description: Report how a repo has drifted from project-kit's conventions - kit version, commits, changelog, release tooling, CI, docs and GitHub metadata - without changing anything. Use when the user types /dm-doctor or asks whether a project follows the conventions.
+name: pk-doctor
+description: Report how a repo has drifted from project-kit's conventions - kit version, commits, changelog, release tooling, CI, docs and GitHub metadata - without changing anything. Use when the user types /pk-doctor or asks whether a project follows the conventions.
 argument-hint: [path to repo, default the current one]
 ---
 
-# /dm-doctor
+# /pk-doctor
 
 Arguments: `$ARGUMENTS`, the repo to check (default: the current repo).
 
@@ -15,7 +15,7 @@ Read the kit's `CONVENTIONS.md` (`${PROJECT_KIT:-$HOME/Code/project-kit}`) first
 Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or ❌ (broken or missing).
 
 1. **Kit**
-   - `.copier-answers.yml` exists. Without it, the only fix is `/dm-adopt`.
+   - `.copier-answers.yml` exists. Without it, the only fix is `/pk-adopt`.
    - Its `_commit` vs the kit's `HEAD`. If they differ, say how many kit commits behind it is, and list their subjects (`git -C <kit> log --oneline <_commit>..HEAD`).
 2. **Agent docs**
    - `CLAUDE.md` is `@AGENTS.md`.
@@ -36,7 +36,7 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - CODEOWNERS is present.
 8. **GitHub** (`gh repo view --json description,repositoryTopics,homepageUrl,visibility`)
    - The description matches the README one-liner.
-   - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `dm-new-project`.
+   - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.
    - Secrets for what the project ships are set (`gh secret list`: names only).
 9. **IDs.** The app ID follows `com.iamdanielmarino.<name>`. A project that shipped with another ID keeps it: report it as ⚠️ "kept on purpose", never as ❌.
 
@@ -44,7 +44,7 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
 
 Show one table: check, status, what's off. Under it:
 - the fixes, cheapest first;
-- whether each is a `copier update`, `/dm-adopt`, `/dm-changelog`, a one-line edit, or a GitHub setting;
+- whether each is a `copier update`, `/pk-adopt`, `/pk-changelog`, a one-line edit, or a GitHub setting;
 - which ones are outward-facing.
 
 Offer to make the fixes, but leave them for the user to pick.

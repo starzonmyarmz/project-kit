@@ -1,11 +1,11 @@
 ---
-name: dm-new-project
-description: Start a new project from project-kit - ask what it is, render the kit into ~/Code/<name>, make the first commit, create the GitHub repo with its description and topics, set up release secrets, and watch the first CI run. Only when the user types /dm-new-project.
+name: pk-new-project
+description: Start a new project from project-kit - ask what it is, render the kit into ~/Code/<name>, make the first commit, create the GitHub repo with its description and topics, set up release secrets, and watch the first CI run. Only when the user types /pk-new-project.
 argument-hint: [name] ["one-line description"]
 disable-model-invocation: true
 ---
 
-# /dm-new-project
+# /pk-new-project
 
 Arguments: `$ARGUMENTS`, optionally the repo name and a quoted one-line description.
 

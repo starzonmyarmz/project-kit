@@ -1,9 +1,9 @@
 ---
-name: dm-changelog
-description: Catch CHANGELOG.md's [Unreleased] section up with the feat, fix and perf commits since the last release, written for the people who use the project. Use when /dm-release or scripts/release says the changelog is empty, or when the user types /dm-changelog.
+name: pk-changelog
+description: Catch CHANGELOG.md's [Unreleased] section up with the feat, fix and perf commits since the last release, written for the people who use the project. Use when /pk-release or scripts/release says the changelog is empty, or when the user types /pk-changelog.
 ---
 
-# /dm-changelog
+# /pk-changelog
 
 Normally each change writes its own changelog line in the same commit. This skill catches up when that didn't happen.
 

@@ -219,15 +219,15 @@ Only for public projects that want outside contributors (roxel):
 
 - **Kit** skills live in `project-kit/skills/`, so they change together with the templates. They're linked into `~/dotfiles/claude/.claude/skills`, the way `til` is.
 - **Project** skills ship in the template only when they're stack-specific.
-- Kit skills are prefixed `dm-` like the other personal skills, and run only when invoked by name.
+- Kit skills are prefixed `pk-` (`dm-` is kept for dotfiles skills), and run only when invoked by name.
 
 | Skill | Where | What |
 |---|---|---|
-| `dm-new-project` | kit | the wizard |
-| `dm-adopt` | kit | brings an existing repo onto the kit in a worktree, following the README's adoption steps |
-| `dm-release` | kit | runs `scripts/release`, shows the computed bump, waits for a yes |
-| `dm-changelog` | kit | drafts `[Unreleased]` lines from commits since the tag in user-facing words |
-| `dm-doctor` | kit | reports drift from this file, changes nothing |
+| `pk-new-project` | kit | the wizard |
+| `pk-adopt` | kit | brings an existing repo onto the kit in a worktree, following the README's adoption steps |
+| `pk-release` | kit | runs `scripts/release`, shows the computed bump, waits for a yes |
+| `pk-changelog` | kit | drafts `[Unreleased]` lines from commits since the tag in user-facing words |
+| `pk-doctor` | kit | reports drift from this file, changes nothing |
 | `screenshot`, `design-kickoff` | vst-plugin | (generalize when a second stack needs them) |
 | `bless-goldens`, `port-jsfx` | vst-plugin | |
 | `playtest`, `balance`, `devlog` | game | |
