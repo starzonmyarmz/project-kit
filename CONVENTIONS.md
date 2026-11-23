@@ -116,8 +116,8 @@ scripts/release [auto|patch|minor|major|X.Y.Z] [--dry-run] [-y]
 4. The tag-triggered `release.yml` takes over:
    - Check the tag equals the version.
    - Build and test.
-   - Package the artifacts.
-   - `gh release create` with the changelog section as notes, plus `SHA256SUMS`.
+   - Package the artifacts as `<name>-X.Y.Z.zip`, with the repo's lowercase name, never the display name.
+   - `gh release create` titled `<Display Name> X.Y.Z`, with the changelog section as notes, plus `SHA256SUMS`.
    - Then the publish jobs (below).
 
 Publish jobs, depending on how the project ships:
