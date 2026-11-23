@@ -35,7 +35,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 - Plugins: hosts treat it as a new plugin, so saved projects need it added again.
 - Mac apps: macOS forgets the app's permissions, Launch at Login and preferences.
 
-The rendered `lib.rs` (or `Info.plist`) is protected, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. Add a changelog line for anyone who already has a release installed.
+The rendered `lib.rs` (or `Info.plist`) is protected, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. If a release was already out, add a changelog line for the people who have it installed. Before a first release, skip it.
 
 Show the table to the user and get a yes before rendering.
 

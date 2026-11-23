@@ -136,7 +136,7 @@ macOS builds are self-signed, not notarized:
 
 Every app's ID is `com.iamdanielmarino.<name>`, whatever kind of app it is: the bundle ID for Mac apps, the CLAP ID for plugins. A VST3 class ID is 16 raw bytes rather than a reverse-DNS name, so plugins use `<TypeName>DanielMarino`, cut to 16 bytes or padded with `_` (`SputnikDanielMar`). Plugins name their vendor `Daniel Marino`.
 
-The kit asks for these IDs with those defaults and saves them in `.copier-answers.yml`, so a later change to the kit can't change them by accident. Projects from before this rule move to it when they're adopted, even though it breaks things: hosts see a plugin with a new ID as a different plugin, so saved projects need it added again, and a Mac app with a new bundle ID loses its permissions and preferences. Say so in the changelog.
+The kit asks for these IDs with those defaults and saves them in `.copier-answers.yml`, so a later change to the kit can't change them by accident. Projects from before this rule move to it when they're adopted, even though it breaks things: hosts see a plugin with a new ID as a different plugin, so saved projects need it added again, and a Mac app with a new bundle ID loses its permissions and preferences. If a release was already out, say so in the changelog. Before a first release there's no one to tell, so skip it.
 
 ## CI
 

@@ -24,6 +24,7 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
 4. **Changelog**
    - `CHANGELOG.md` exists with an `## [Unreleased]` section.
    - Every `feat`, `fix` or `perf` commit since the last tag is covered by it.
+   - An ID change (`fix(Plugin)!:` or `fix(App)!:`) needs a changelog line only if a release was tagged before it.
 5. **Versions and tags**
    - The last `v*` tag matches the source of truth for the stack (CONVENTIONS' table).
    - No tags without the `v`.
