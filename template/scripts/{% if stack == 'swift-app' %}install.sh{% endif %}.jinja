@@ -1,0 +1,19 @@
+#!/bin/bash
+# Builds the app as <last release>-dev+<sha>, replaces /Applications/{{ display_name }}.app and opens it.
+# Set SIGN_IDENTITY to your long-lived local certificate so permissions survive reinstalls.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+source scripts/version.sh
+build=$(git rev-parse --short HEAD)
+if [[ -n $(git status --porcelain) ]]; then
+  build="$build.dirty"
+fi
+version="$(read_version)-dev+$build"
+
+scripts/build-app.sh "$version" >/dev/null
+osascript -e 'tell application id "{{ app_id }}" to quit' 2>/dev/null || true
+rm -rf "/Applications/{{ display_name }}.app"
+ditto "dist/{{ display_name }}.app" "/Applications/{{ display_name }}.app"
+open "/Applications/{{ display_name }}.app"
+echo "Installed {{ display_name }} $version"

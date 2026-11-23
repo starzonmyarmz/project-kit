@@ -1,0 +1,25 @@
+cask "{{ name }}" do
+  version "@VERSION@"
+  sha256 "@SHA256@"
+
+  url "https://github.com/{{ owner }}/{{ name }}/releases/download/v#{version}/{{ name }}-#{version}.zip"
+  name "{{ display_name }}"
+  desc "{{ description }}"
+  homepage "https://github.com/{{ owner }}/{{ name }}"
+
+  depends_on arch: :arm64
+  depends_on macos: :sonoma
+
+  app "{{ display_name }}.app"
+
+  postflight_steps do
+    run "/usr/bin/xattr",
+        args:           ["-dr", "com.apple.quarantine", "{{ '{{' }}appdir{{ '}}' }}/{{ display_name }}.app"],
+        writable_paths: ["{{ display_name }}.app"],
+        writable_base:  :appdir
+  end
+
+  uninstall quit: "{{ app_id }}"
+
+  zap trash: "~/Library/Preferences/{{ app_id }}.plist"
+end

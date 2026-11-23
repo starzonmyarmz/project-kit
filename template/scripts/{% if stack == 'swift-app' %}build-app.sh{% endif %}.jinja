@@ -1,0 +1,32 @@
+#!/bin/bash
+# Usage: scripts/build-app.sh [version]
+# Builds "dist/{{ display_name }}.app" and dist/{{ name }}-<version>.zip. Signs with $SIGN_IDENTITY
+# (a certificate name or SHA-1 hash), or ad hoc when it's unset.
+set -euo pipefail
+
+VERSION="${1:-0.0.0-dev}"
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+DIST="$ROOT/dist"
+APP="$DIST/{{ display_name }}.app"
+
+cd "$ROOT"
+swift build -c release
+BIN="$(swift build -c release --show-bin-path)/{{ type_name }}"
+
+rm -rf "$DIST"
+mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
+cp "$BIN" "$APP/Contents/MacOS/{{ type_name }}"
+sed "s/@VERSION@/$VERSION/g" packaging/Info.plist > "$APP/Contents/Info.plist"
+
+ICONSET="$DIST/AppIcon.iconset"
+swift scripts/make-icon.swift packaging/icon.svg "$ICONSET"
+iconutil -c icns "$ICONSET" -o "$APP/Contents/Resources/AppIcon.icns"
+rm -rf "$ICONSET"
+
+codesign --force --options runtime --timestamp=none \
+  ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} \
+  --sign "${SIGN_IDENTITY:--}" "$APP"
+codesign --verify --strict "$APP"
+
+ditto -c -k --keepParent "$APP" "$DIST/{{ name }}-$VERSION.zip"
+echo "$DIST/{{ name }}-$VERSION.zip"

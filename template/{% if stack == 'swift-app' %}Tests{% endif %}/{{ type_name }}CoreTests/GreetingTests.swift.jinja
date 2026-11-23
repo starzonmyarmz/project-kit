@@ -1,0 +1,17 @@
+import Testing
+
+@testable import {{ type_name }}Core
+
+@Suite struct GreetingTests {
+    @Test func greetsByName() {
+        #expect(Greeting.message(for: "Alice") == "Hello, Alice!")
+    }
+
+    @Test func ignoresSurroundingWhitespace() {
+        #expect(Greeting.message(for: "  Alice \n") == "Hello, Alice!")
+    }
+
+    @Test func fallsBackWithoutAName() {
+        #expect(Greeting.message(for: " ") == "Hello!")
+    }
+}

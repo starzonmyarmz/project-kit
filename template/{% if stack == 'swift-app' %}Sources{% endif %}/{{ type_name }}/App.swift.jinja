@@ -1,0 +1,25 @@
+import SwiftUI
+
+import {{ type_name }}Core
+
+@main
+struct {{ type_name }}App: App {
+    var body: some Scene {
+{%- if menu_bar %}
+        MenuBarExtra("{{ display_name }}", systemImage: "sparkles") {
+            Text(Greeting.message(for: "world"))
+            Divider()
+            Button("Quit {{ display_name }}") {
+                NSApplication.shared.terminate(nil)
+            }
+            .keyboardShortcut("q")
+        }
+{%- else %}
+        WindowGroup {
+            Text(Greeting.message(for: "world"))
+                .padding()
+                .frame(minWidth: 320, minHeight: 200)
+        }
+{%- endif %}
+    }
+}

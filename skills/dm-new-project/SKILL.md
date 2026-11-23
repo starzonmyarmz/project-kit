@@ -66,6 +66,7 @@ Check that it builds before going public:
 | Stack | Check |
 |---|---|
 | vst-plugin | `cargo fmt --all --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` (the first build takes a few minutes) |
+| swift-app | `swift format lint --strict --recursive Package.swift Sources Tests scripts/make-icon.swift`, `swift test`, `scripts/build-app.sh` |
 | other | `scripts/release --dry-run` exits with "nothing to release" |
 
 If a check fails, the kit has a bug. Fix it in the kit, commit it there, and render again. Don't patch the new project by hand.
@@ -106,6 +107,7 @@ Never ask the user to paste a secret into the chat. For each secret the project'
 ```
 
 - `HOMEBREW_TAP_TOKEN` is a fine-grained token with Contents read and write on `starzonmyarmz/homebrew-tap`. The same token works for every project.
+- `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (Mac apps): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
 - For itch.io, also set the variable yourself: `gh variable set ITCH_TARGET -R starzonmyarmz/<name> --body "starzonmyarmz/<name>:<channel>"`.
 
 Skip this step when nothing is needed. Then confirm with `gh secret list -R starzonmyarmz/<name>`.

@@ -1,0 +1,5 @@
+- `Sources/{{ type_name }}Core/`: all the logic, with no AppKit or SwiftUI, so `swift test` covers it.
+- `Sources/{{ type_name }}/`: the app shell (SwiftUI scenes, AppKit glue). Keep it thin: anything worth testing moves into Core.
+- `Tests/{{ type_name }}CoreTests/`: Swift Testing (`@Suite`, `@Test`, `#expect`).
+- `packaging/`: `Info.plist` (the version is `@VERSION@`, filled in at build time), `icon.svg` (the glyph `scripts/make-icon.swift` draws on the app icon tile){% if 'homebrew-cask' in ships %}, and `{{ name }}.rb`, the cask template the release workflow pushes to the tap{% endif %}.
+- `scripts/`: `build-app.sh`, `install.sh`, `make-icon.swift` and release tooling.

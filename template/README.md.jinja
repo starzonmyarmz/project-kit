@@ -25,6 +25,7 @@ Versions follow [SemVer](https://semver.org), and the commits since the last rel
 
 `scripts/release` shows the computed bump and the changelog, then commits, tags `vX.Y.Z` and pushes. Pass `patch`, `minor`, `major` or an exact version to override, and `--dry-run` to only look. The tag runs `.github/workflows/release.yml`.
 {%- set secrets = [] %}
+{%- if stack == 'swift-app' %}{% set _ = secrets.append('`SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD`: your long-lived self-signed code-signing certificate, exported as a .p12 and base64-encoded. Without them releases are signed ad hoc, and macOS forgets the app\'s permissions on every update.') %}{% endif %}
 {%- if 'homebrew-cask' in ships or 'homebrew-formula' in ships %}{% set _ = secrets.append('`HOMEBREW_TAP_TOKEN`: a fine-grained token with Contents read and write on `' ~ owner ~ '/homebrew-tap`') %}{% endif %}
 {%- if 'itch' in ships %}{% set _ = secrets.append('`BUTLER_API_KEY`: an itch.io API key, plus the repo variable `ITCH_TARGET` (`user/game:channel`)') %}{% endif %}
 {%- if secrets %}

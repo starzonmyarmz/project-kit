@@ -1,0 +1,12 @@
+// swift-tools-version:6.0
+import PackageDescription
+
+let package = Package(
+    name: "{{ type_name }}",
+    platforms: [.macOS(.v14)],
+    targets: [
+        .target(name: "{{ type_name }}Core"),
+        .executableTarget(name: "{{ type_name }}", dependencies: ["{{ type_name }}Core"]),
+        .testTarget(name: "{{ type_name }}CoreTests", dependencies: ["{{ type_name }}Core"]),
+    ]
+)

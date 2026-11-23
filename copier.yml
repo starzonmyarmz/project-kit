@@ -13,6 +13,10 @@ _skip_if_exists:
   - plugin/src/**
   - plugin/tests/**
   - ui/**
+  - Package.swift
+  - Sources/**
+  - Tests/**
+  - packaging/**
 
 name:
   type: str
@@ -70,6 +74,12 @@ vst3_class_id:
   default: "{{ ((display_name | regex_replace('[^A-Za-z0-9]', '')) ~ 'DanMarino________')[:16] }}"
   when: "{{ stack == 'vst-plugin' }}"
   validator: "{% if vst3_class_id | length != 16 %}Must be exactly 16 characters{% endif %}"
+
+menu_bar:
+  type: bool
+  help: Menu bar app, with no Dock icon or main window?
+  default: false
+  when: "{{ stack == 'swift-app' }}"
 
 public:
   type: bool
