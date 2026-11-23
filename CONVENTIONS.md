@@ -217,16 +217,18 @@ Only for public projects that want outside contributors (roxel):
 
 ## Skills
 
-**Global** skills live in `~/dotfiles/claude/.claude/skills` and are kept in one place. **Project** skills ship in the template only when they're stack-specific.
+- **Kit** skills live in `project-kit/skills/`, so they change together with the templates. They're linked into `~/dotfiles/claude/.claude/skills`, the way `til` is.
+- **Project** skills ship in the template only when they're stack-specific.
+- Kit skills are prefixed `dm-` like the other personal skills, and run only when invoked by name.
 
 | Skill | Where | What |
 |---|---|---|
-| `new-project` | global | the wizard |
-| `release` | global | runs `scripts/release`, shows the computed bump, waits for a yes |
-| `changelog` | global | drafts `[Unreleased]` lines from commits since the tag in user-facing words |
-| `screenshot` | global | runs the project's `scripts/screenshot`, checks it, updates the README image |
-| `design-kickoff` | global | offers 2–4 directions with previews, records the choices in DESIGN.md |
-| `doctor` | global | reports drift from this file, changes nothing |
+| `dm-new-project` | kit | the wizard |
+| `dm-adopt` | kit | brings an existing repo onto the kit in a worktree, following the README's adoption steps |
+| `dm-release` | kit | runs `scripts/release`, shows the computed bump, waits for a yes |
+| `dm-changelog` | kit | drafts `[Unreleased]` lines from commits since the tag in user-facing words |
+| `dm-doctor` | kit | reports drift from this file, changes nothing |
+| `screenshot`, `design-kickoff` | vst-plugin | (generalize when a second stack needs them) |
 | `bless-goldens`, `port-jsfx` | vst-plugin | |
 | `playtest`, `balance`, `devlog` | game | |
 
