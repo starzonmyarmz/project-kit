@@ -23,15 +23,19 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `description` | `gh repo view --json description` |
 | `display_name` | `bundler.toml` `name`, the app's display name, or the README title |
 | `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; otherwise `other` |
-| `app_id` | the shipped ID: `CLAP_ID` in `plugin/src/lib.rs`, or the bundle ID |
-| `vst3_class_id` | `VST3_CLASS_ID` in `plugin/src/lib.rs` |
+| `app_id` | always `com.iamdanielmarino.<name>`. Note the current `CLAP_ID` or bundle ID if it differs |
+| `vst3_class_id` | always `<TypeName>DanielMarino`, cut or padded to 16. Note the current `VST3_CLASS_ID` if it differs |
 | `public` | `gh repo view --json visibility` |
 | `ships` | what `release.yml` does today |
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `year` | the year of the first commit |
 | `starter` | `false` (vst-plugin only), so the kit's starter-only files (example golden render, generated UI mock) are never added, now or on later updates |
 
-**The IDs must be the shipped ones, never the kit's defaults.** Hosts and macOS find the project by them.
+**IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:
+- Plugins: hosts treat it as a new plugin, so saved projects need it added again.
+- Mac apps: macOS forgets the app's permissions, Launch at Login and preferences.
+
+The rendered `lib.rs` (or `Info.plist`) is protected, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. Add a changelog line for anyone who already has a release installed.
 
 Show the table to the user and get a yes before rendering.
 

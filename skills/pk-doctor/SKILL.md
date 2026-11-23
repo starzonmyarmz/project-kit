@@ -38,7 +38,10 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - The description matches the README one-liner.
    - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.
    - Secrets for what the project ships are set (`gh secret list`: names only).
-9. **IDs.** The app ID follows `com.iamdanielmarino.<name>`. A project that shipped with another ID keeps it: report it as ⚠️ "kept on purpose", never as ❌.
+9. **IDs.**
+   - The app ID is `com.iamdanielmarino.<name>`.
+   - A plugin's VST3 class ID is `<TypeName>DanielMarino`, cut or padded to 16, and its `VENDOR` is "Daniel Marino".
+   - Anything else is ❌. Say what changing it will break (saved host projects, or macOS permissions), and point to the ID steps in `/pk-adopt`.
 
 ## Report
 

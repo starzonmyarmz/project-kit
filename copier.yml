@@ -71,7 +71,7 @@ app_id:
 vst3_class_id:
   type: str
   help: VST3 class ID, exactly 16 ASCII characters (never change it after the first release)
-  default: "{{ ((display_name | regex_replace('[^A-Za-z0-9]', '')) ~ 'DanMarino________')[:16] }}"
+  default: "{{ ((display_name | regex_replace('[^A-Za-z0-9]', '')) ~ 'DanielMarino________________')[:16] }}"
   when: "{{ stack == 'vst-plugin' }}"
   validator: "{% if vst3_class_id | length != 16 %}Must be exactly 16 characters{% endif %}"
 
