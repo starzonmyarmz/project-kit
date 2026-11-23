@@ -22,7 +22,7 @@ Every color, size and space comes from a token. If nothing fits, add a token her
 
 1. Look for an existing component or pattern that already does it.
 2. Build it from tokens only.
-3. Check light and dark, and Reduce Motion if it moves.
+{% if stack == 'vst-plugin' %}3. Check Reduce Motion if it moves.{% else %}3. Check light and dark, and Reduce Motion if it moves.{% endif %}
 4. Retake the screenshot if it shows in one.
 5. Record it above.
 
