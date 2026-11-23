@@ -58,11 +58,11 @@ type_name:
   default: "{{ display_name | regex_replace('[^A-Za-z0-9]', '') }}"
   when: false
 
-clap_id:
+app_id:
   type: str
-  help: CLAP plugin ID (never change it after the first release)
-  default: "com.danmarino.{{ name | replace('-', '') }}"
-  when: "{{ stack == 'vst-plugin' }}"
+  help: App ID, used as the bundle ID or CLAP ID (never change it after the first release)
+  default: "com.iamdanielmarino.{{ name }}"
+  when: "{{ stack in ['vst-plugin', 'swift-app'] }}"
 
 vst3_class_id:
   type: str
