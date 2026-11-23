@@ -51,7 +51,7 @@ copier copy --defaults --overwrite --vcs-ref HEAD -d name=... -d app_id=... (eve
 
 Work through `git status` and `git diff` in the worktree:
 
-1. **Version.** Put the source of truth back to the version on `HEAD`, e.g. `Cargo.toml`'s `version` (then `cargo update --workspace`). The kit starts new projects at 0.0.0.
+1. **Version.** Put the source of truth back to the last `v*` tag's version, e.g. `Cargo.toml`'s `version` (then `cargo update --workspace`). The kit starts new projects at 0.0.0. Without a tag, use the version on `HEAD`. If `HEAD` is ahead of the tag, an old bump-after-every-change rule moved it without a release: say so, and give both versions in the adoption commit's body. Keeping it would make the next release skip a number.
 2. **Starter files the repo never had.** With `starter=false` the kit leaves out its starter-only files. If any other new, untracked file isn't wanted, don't just delete it: `copier update` will add it back. Make it conditional in the kit instead.
 3. **CLAUDE.md knowledge.** The old CLAUDE.md (`git show HEAD:CLAUDE.md`) is now `@AGENTS.md`. Move everything specific to this project into the rendered AGENTS.md:
    - layout → Layout
