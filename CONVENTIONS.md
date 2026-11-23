@@ -1,6 +1,6 @@
 # Conventions
 
-How every project starts and ships. Templates, skills and `/doctor` follow this file. When the workflow changes, change this file first, then the kit, then run `copier update` in the projects that should catch up.
+How every project starts and ships. Templates, skills and `/pk-doctor` follow this file. When the workflow changes, change this file first, then the kit, then run `copier update` in the projects that should catch up.
 
 Each rule says where it came from so it can be judged later. A rule marked **(review)** was picked during the first draft, not proven in a project yet.
 
@@ -15,7 +15,7 @@ Each rule says where it came from so it can be judged later. A rule marked **(re
 
 ## GitHub metadata
 
-Set by the wizard with `gh repo create` and `gh repo edit`, and checked by `/doctor`.
+Set by the wizard with `gh repo create` and `gh repo edit`, and checked by `/pk-doctor`.
 
 - **Description:** one sentence, the same as the README one-liner. No trailing period unless it's two sentences.
 - **Topics:**
@@ -76,7 +76,7 @@ Commits since the last tag decide it; a human triggers the release.
 
 - Before 1.0, a breaking change bumps the minor version. Going to 1.0.0 is a deliberate call, never computed.
 - "Breaking" means whatever the project's users depend on. For plugins, that's renamed parameter IDs or presets that won't load. For apps, that's saved files or preferences that no longer open. For CLIs, that's flags or output. Each project's AGENTS.md says what counts. (patina)
-- `/release` computes the bump, shows the commits behind it, and waits for a yes. `patch`, `minor`, `major` or an exact version overrides it.
+- `/pk-release` computes the bump, shows the commits behind it, and waits for a yes. `patch`, `minor`, `major` or an exact version overrides it.
 - Agents never release, tag, or edit a tap formula on their own. Releasing is outward-facing and only happens when asked. (hum2midi)
 
 ## Changelog
@@ -98,7 +98,7 @@ What changed for people using <Name>, newest first. Code-only work stays in the 
 
 - Sections are `Added`, `Changed`, `Fixed` and `Removed`. A project may add its own, such as riff-raff's `Balance`.
 - **Write the entry in the same commit as the change.** Any `feat`, `fix` or `perf` commit that someone using the project would notice adds a line under `[Unreleased]`. Refactors, tests, docs and CI don't.
-- CI checks this on PRs: a `feat`/`fix`/`perf` commit with no CHANGELOG change fails. To opt out, add the `no-changelog` label or put `[skip changelog]` in the subject. `/release` runs the same check locally, because most work goes straight to `main`.
+- CI checks this on PRs: a `feat`/`fix`/`perf` commit with no CHANGELOG change fails. To opt out, add the `no-changelog` label or put `[skip changelog]` in the subject. `scripts/release` runs the same check locally, because most work goes straight to `main`.
 - At release time, `[Unreleased]` becomes `## [X.Y.Z] - YYYY-MM-DD` and a fresh empty `[Unreleased]` is added. Those bullets become the GitHub release body.
 - Public repos: read the new section against the scrubbing rule above before committing.
 

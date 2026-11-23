@@ -27,7 +27,7 @@ A new stack needs:
 - a branch in `version.sh.jinja`;
 - its files under conditional names.
 
-The `/new-project` skill asks the questions, runs these, creates the GitHub repo with description and topics, sets secrets, pushes, and watches the first CI run. `/doctor` reports how an existing repo has drifted from the conventions.
+The `/pk-new-project` skill asks the questions, runs these, creates the GitHub repo with description and topics, sets secrets, pushes, and watches the first CI run. `/pk-doctor` reports how an existing repo has drifted from the conventions.
 
 ## Starter files
 
