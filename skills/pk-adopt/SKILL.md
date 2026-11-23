@@ -1,6 +1,6 @@
 ---
 name: pk-adopt
-description: Bring an existing repo onto project-kit in a worktree - render the kit over it with the repo's own answers, keep its version and IDs, move its CLAUDE.md knowledge into AGENTS.md and DESIGN.md, drop starter files it never had, and hand back a reviewed diff. Only when the user types /pk-adopt.
+description: Bring an existing repo onto project-kit in a worktree - render the kit over it with the repo's own answers, keep its version, move its IDs to the convention, move its CLAUDE.md knowledge into AGENTS.md and DESIGN.md, drop starter files it never had, and hand back a reviewed diff. Only when the user types /pk-adopt.
 argument-hint: [path to repo, default the current one]
 disable-model-invocation: true
 ---
