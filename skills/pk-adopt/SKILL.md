@@ -54,7 +54,7 @@ Work through `git status` and `git diff` in the worktree:
    - sound, design and controls notes → DESIGN.md's "This plugin" section, or Principles where they differ.
    Drop what the kit's text already says, and old rules the conventions replace (bump-after-every-change, plain commit messages, `bump.sh`). Nothing project-specific may be lost. List anything you left out and why.
 4. **Protected files that need a kit feature.** Make the smallest change in files the kit won't overwrite. For a plugin's dev versions, `PAGE.version` in `lib.rs` becomes the `option_env!("PLUGIN_VERSION")` match from the kit.
-5. **Scripts the kit replaces.** Remove `scripts/bump.sh` and anything else the kit's `scripts/release` supersedes.
+5. **Scripts the kit replaces.** Remove `scripts/bump.sh` and anything else the kit's `scripts/release` supersedes. The README is protected, so update its build commands and its CI and releases section by hand to describe `scripts/release`, the changelog check and the `-dev+<sha>` installs.
 6. **CHANGELOG.** The kit creates an empty one. If the repo has tags, offer to seed one version section per tag from its GitHub release notes (`gh release view vX.Y.Z --json body`), rewritten in user-facing words.
 
 ## 4. Check it
@@ -74,6 +74,8 @@ Show the user the diff stat and the summary, then ask whether to:
 - fast-forward `main` and push;
 - leave the branch for them;
 - or throw it away (`git worktree remove`, `git branch -D`).
+
+If the repo's history predates Conventional Commits, `scripts/release` finds nothing to bump from. Tell the user that its first release after adopting needs an explicit version, e.g. `scripts/release 0.1.1` to ship the current one. After that, commits decide.
 
 After merging, offer to normalize the GitHub metadata. This is outward-facing, so ask first:
 - `gh repo edit --add-topic vibe-coded`, removing `vibecode` and `vibecoded`;
