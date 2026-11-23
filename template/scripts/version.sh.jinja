@@ -1,4 +1,4 @@
-{% if stack == 'rust-plugin' -%}
+{% if stack == 'vst-plugin' -%}
 read_version() {
   sed -n 's/^version = "\(.*\)"/\1/p' Cargo.toml | head -1
 }

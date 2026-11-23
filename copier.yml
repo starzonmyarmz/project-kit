@@ -44,7 +44,7 @@ stack:
   type: str
   help: What kind of project
   choices:
-    Rust audio plugin (VST3 + CLAP): rust-plugin
+    VST plugin (VST3 + CLAP): vst-plugin
     Mac app (SwiftPM): swift-app
     Something else (version from tags only): other
 
@@ -62,13 +62,13 @@ clap_id:
   type: str
   help: CLAP plugin ID (never change it after the first release)
   default: "com.danmarino.{{ name | replace('-', '') }}"
-  when: "{{ stack == 'rust-plugin' }}"
+  when: "{{ stack == 'vst-plugin' }}"
 
 vst3_class_id:
   type: str
   help: VST3 class ID, exactly 16 ASCII characters (never change it after the first release)
   default: "{{ ((display_name | regex_replace('[^A-Za-z0-9]', '')) ~ 'DanMarino________')[:16] }}"
-  when: "{{ stack == 'rust-plugin' }}"
+  when: "{{ stack == 'vst-plugin' }}"
   validator: "{% if vst3_class_id | length != 16 %}Must be exactly 16 characters{% endif %}"
 
 public:
@@ -91,7 +91,7 @@ ships:
 design_doc:
   type: bool
   help: Add DESIGN.md (anything with a UI)?
-  default: "{{ stack in ['rust-plugin', 'swift-app'] }}"
+  default: "{{ stack in ['vst-plugin', 'swift-app'] }}"
 
 voice_doc:
   type: bool

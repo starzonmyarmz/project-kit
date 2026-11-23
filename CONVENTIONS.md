@@ -227,7 +227,7 @@ Only for public projects that want outside contributors (roxel):
 | `screenshot` | global | runs the project's `scripts/screenshot`, checks it, updates the README image |
 | `design-kickoff` | global | offers 2–4 directions with previews, records the choices in DESIGN.md |
 | `doctor` | global | reports drift from this file, changes nothing |
-| `bless-goldens`, `port-jsfx` | rust-plugin | |
+| `bless-goldens`, `port-jsfx` | vst-plugin | |
 | `playtest`, `balance`, `devlog` | game | |
 
 Skills that run multi-step rituals use `disable-model-invocation: true`, so they only run when invoked by name.
