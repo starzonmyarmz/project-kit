@@ -75,6 +75,12 @@ vst3_class_id:
   when: "{{ stack == 'vst-plugin' }}"
   validator: "{% if vst3_class_id | length != 16 %}Must be exactly 16 characters{% endif %}"
 
+starter:
+  type: bool
+  help: Include the starter-only files (example golden render, generated UI mock)? Say no when adopting an existing repo.
+  default: true
+  when: "{{ stack == 'vst-plugin' }}"
+
 menu_bar:
   type: bool
   help: Menu bar app, with no Dock icon or main window?

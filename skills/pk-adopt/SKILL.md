@@ -29,6 +29,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `ships` | what `release.yml` does today |
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `year` | the year of the first commit |
+| `starter` | `false` (vst-plugin only), so the kit's starter-only files (example golden render, generated UI mock) are never added, now or on later updates |
 
 **The IDs must be the shipped ones, never the kit's defaults.** Hosts and macOS find the project by them.
 
@@ -47,7 +48,7 @@ copier copy --defaults --overwrite --vcs-ref HEAD -d name=... -d app_id=... (eve
 Work through `git status` and `git diff` in the worktree:
 
 1. **Version.** Put the source of truth back to the version on `HEAD`, e.g. `Cargo.toml`'s `version` (then `cargo update --workspace`). The kit starts new projects at 0.0.0.
-2. **Starter files the repo never had.** Delete untracked files that the kit lists under `_skip_if_exists` in `copier.yml`. For example, the template's golden render, and `ui/mock.json` with `plugin/tests/mock.rs` when the repo's UI doesn't use a mock.
+2. **Starter files the repo never had.** With `starter=false` the kit leaves out its starter-only files. If any other new, untracked file isn't wanted, don't just delete it: `copier update` will add it back. Make it conditional in the kit instead.
 3. **CLAUDE.md knowledge.** The old CLAUDE.md (`git show HEAD:CLAUDE.md`) is now `@AGENTS.md`. Move everything specific to this project into the rendered AGENTS.md:
    - layout → Layout
    - lessons and gotchas → Invariants and footguns, under the stack's own sections
