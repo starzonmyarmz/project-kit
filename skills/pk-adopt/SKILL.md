@@ -60,7 +60,8 @@ Work through `git status` and `git diff` in the worktree:
    Drop what the kit's text already says, and old rules the conventions replace (bump-after-every-change, plain commit messages, `bump.sh`). Nothing project-specific may be lost. List anything you left out and why.
 4. **Protected files that need a kit feature.** Make the smallest change in files the kit won't overwrite. For a plugin's dev versions, `PAGE.version` in `lib.rs` becomes the `option_env!("PLUGIN_VERSION")` match from the kit.
 5. **Scripts the kit replaces.** Remove `scripts/bump.sh` and anything else the kit's `scripts/release` supersedes. The README is protected, so update its build commands and its CI and releases section by hand to describe `scripts/release`, the changelog check and the `-dev+<sha>` installs.
-6. **CHANGELOG.** The kit creates an empty one. If the repo has tags, offer to seed one version section per tag from its GitHub release notes (`gh release view vX.Y.Z --json body`), rewritten in user-facing words.
+6. **README opening.** Also by hand, put its first lines in CONVENTIONS' order: `# Name` (with the app icon in the heading, if there is one), then the `description` answer word for word as the one-liner, then the screenshot. Keep the old opening paragraph as the pitch below the screenshot, minus what the one-liner now says.
+7. **CHANGELOG.** The kit creates an empty one. If the repo has tags, offer to seed one version section per tag from its GitHub release notes (`gh release view vX.Y.Z --json body`), rewritten in user-facing words.
 
 ## 4. Check it
 
