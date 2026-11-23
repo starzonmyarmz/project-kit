@@ -3,6 +3,16 @@ _min_copier_version: "9.4"
 _answers_file: .copier-answers.yml
 _exclude:
   - .DS_Store
+_skip_if_exists:
+  - README.md
+  - CHANGELOG.md
+  - DESIGN.md
+  - VOICE.md
+  - Cargo.lock
+  - plugin/Cargo.toml
+  - plugin/src/**
+  - plugin/tests/**
+  - ui/**
 
 name:
   type: str

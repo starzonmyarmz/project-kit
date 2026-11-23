@@ -29,6 +29,21 @@ A new stack needs:
 
 The `/new-project` skill asks the questions, runs these, creates the GitHub repo with description and topics, sets secrets, pushes, and watches the first CI run. `/doctor` reports how an existing repo has drifted from the conventions.
 
+## Starter files
+
+The files listed in `_skip_if_exists` in `copier.yml` belong to the project once it exists: README, CHANGELOG, DESIGN/VOICE, `Cargo.lock`, and the plugin's code, tests and UI. Copier creates them once and never overwrites them. Everything else is managed: `copier update` merges kit changes into it three ways, keeping the project's own edits.
+
+## Adopting an existing project
+
+Running the kit over a repo that didn't start from it needs a judgment pass. A trial on sputnik showed what that pass has to do:
+
+1. Run `copier copy --overwrite` in a worktree, with answers that match the repo (name, description and the existing plugin IDs).
+2. Put the version back. The first copy resets the source of truth (e.g. `Cargo.toml`) to the template's `0.0.0`.
+3. Move the old CLAUDE.md's project knowledge into AGENTS.md (invariants, layout) and DESIGN.md (the look), since CLAUDE.md becomes `@AGENTS.md`.
+4. Delete starter files the repo never had (e.g. the template's golden render, `ui/mock.json`, `tests/mock.rs`).
+5. Adapt the protected files by hand where a kit feature needs them (e.g. `PAGE.version` in `lib.rs` for dev versions).
+6. Review the whole diff, then commit it as one `chore: adopt project-kit` commit.
+
 ## Changing a convention
 
 1. Edit CONVENTIONS.md.
