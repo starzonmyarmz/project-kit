@@ -136,6 +136,8 @@ macOS builds are self-signed, not notarized:
 
 Bundle IDs are `com.iamdanielmarino.<name>` **(review)**. Existing apps keep the ID they have, because changing it resets permissions.
 
+Audio plugins keep the family's own IDs: CLAP `com.danmarino.<name>` and VST3 `<TypeName>DanMarino`, cut or padded to 16 bytes. The kit asks for both with those defaults and saves them in `.copier-answers.yml`, so a later change to the kit can't change a shipped plugin's IDs.
+
 ## CI
 
 `check.yml` runs on push to `main` and on PRs:
