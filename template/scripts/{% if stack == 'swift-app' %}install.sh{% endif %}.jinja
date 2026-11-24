@@ -1,7 +1,7 @@
 #!/bin/bash
 # Builds the app as <last release>-dev, or as the release itself from a clean checkout of its tag,
 # replaces /Applications/{{ display_name }}.app and opens it.
-# Set SIGN_IDENTITY to your long-lived local certificate so permissions survive reinstalls.
+# Signs with a "{{ display_name }} Local" certificate (or $SIGN_IDENTITY) so permissions survive reinstalls.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 

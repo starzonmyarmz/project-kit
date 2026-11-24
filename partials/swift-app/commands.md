@@ -7,7 +7,7 @@ scripts/build-app.sh 1.2.3                    # dist/{{ display_name }}.app and 
 scripts/release --dry-run                     # what the next release would be
 ```
 
-`scripts/install.sh` and `build-app.sh` need Xcode and XcodeGen (`brew install xcodegen`). They sign with `SIGN_IDENTITY` when that names a certificate, and ad hoc otherwise. Use one long-lived self-signed certificate per machine (Keychain Access → Certificate Assistant → Create a Certificate, type Code Signing), so macOS keeps the app's permissions across reinstalls.
+`scripts/install.sh` and `build-app.sh` need Xcode and XcodeGen (`brew install xcodegen`). They sign with the certificate `SIGN_IDENTITY` names, else one named "{{ display_name }} Local" in your keychain, else ad hoc. Create that self-signed certificate once (Keychain Access → Certificate Assistant → Create a Certificate, type Code Signing), so macOS keeps the app's permissions across reinstalls.
 {%- else -%}
 ```sh
 swift test                                  # the {{ type_name }}Core tests
@@ -18,5 +18,5 @@ scripts/build-app.sh 1.2.3                  # dist/{{ display_name }}.app and di
 scripts/release --dry-run                   # what the next release would be
 ```
 
-`scripts/install.sh` and `build-app.sh` sign ad hoc unless `SIGN_IDENTITY` names a certificate. Use one long-lived self-signed certificate per machine (Keychain Access → Certificate Assistant → Create a Certificate, type Code Signing), so macOS keeps the app's permissions across reinstalls.
+`scripts/install.sh` and `build-app.sh` sign with the certificate `SIGN_IDENTITY` names, else one named "{{ display_name }} Local" in your keychain, else ad hoc. Create that self-signed certificate once (Keychain Access → Certificate Assistant → Create a Certificate, type Code Signing), so macOS keeps the app's permissions across reinstalls.
 {%- endif %}

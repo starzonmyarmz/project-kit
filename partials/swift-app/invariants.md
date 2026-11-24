@@ -6,7 +6,7 @@
 - The version isn't stored in the repo. It comes from the release tag (`scripts/version.sh` reads the last one), and `build-app.sh` writes it into `Info.plist`. Don't add a version anywhere else.
 {%- endif %}
 {% if local_only -%}
-- Sign local builds with the same certificate every time (`SIGN_IDENTITY`). Ad hoc signing gives each build a new identity, so macOS asks for permissions again.
+- Sign local builds with the same certificate every time ("{{ display_name }} Local", or `SIGN_IDENTITY`). Ad hoc signing gives each build a new identity, so macOS asks for permissions again.
 {%- else -%}
 - Sign releases with the same certificate every time (the `SIGNING_CERT_P12` secret). A new certificate, or ad hoc signing, makes macOS forget the app's permissions on update.
 {%- endif %}
