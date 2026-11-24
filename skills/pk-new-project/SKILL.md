@@ -96,6 +96,12 @@ Topics: `vibe-coded`, plus the ones for the stack and the places it ships.
 | Homebrew formula | `homebrew-formula` |
 | itch.io | `itch-io` |
 
+With `sponsors`, turn on the repo's Sponsorships setting too, which `gh repo edit` has no flag for. Without it GitHub hides the Sponsor button:
+
+```sh
+gh api graphql -f query='mutation($id:ID!){ updateRepository(input:{repositoryId:$id, hasSponsorshipsEnabled:true}) { repository { hasSponsorshipsEnabled } } }' -f id=<id from gh repo view --json id>
+```
+
 Add one or two topics for what it does (`cpu-monitor`, `voxel-editor`), and say which.
 
 ## 5. Secrets

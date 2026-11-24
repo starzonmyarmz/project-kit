@@ -89,4 +89,5 @@ After merging, offer to normalize the GitHub metadata. This is outward-facing, s
 - `gh repo edit --add-topic vibe-coded`, removing `vibecode` and `vibecoded`;
 - set the description to the README one-liner;
 - `gh repo edit --enable-wiki=false --enable-projects=false`, after checking the wiki has no pages worth keeping;
-- `gh repo edit --delete-branch-on-merge`.
+- `gh repo edit --delete-branch-on-merge`;
+- with `sponsors`, turn on the Sponsorships setting with the GraphQL call in `/pk-new-project`.

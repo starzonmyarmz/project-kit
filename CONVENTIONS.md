@@ -11,7 +11,7 @@ Each rule says where it came from so it can be judged later. A rule marked **(re
 - `.worktreeinclude` lists whatever a fresh worktree needs copied (e.g. `node_modules`, `.venv`).
 - `.gitignore` always covers `.DS_Store`, `.playwright-mcp/`, `.claude/settings.local.json`, `.env`, build output and screenshot scratch dirs.
 - `.github/CODEOWNERS` is `* @starzonmyarmz`.
-- Public repos have `.github/FUNDING.yml` with `github: [starzonmyarmz]` and `ko_fi: danielmarino`, for the Sponsor button. A project can opt out.
+- Public repos have `.github/FUNDING.yml` with `github: [starzonmyarmz]` and `ko_fi: danielmarino`, for the Sponsor button, and the repo's Sponsorships setting on (GitHub hides the button without it). A project can opt out.
 - Public repos keep real names, logins, URLs and work data out of fixtures, docs, changelogs and commits. Use stand-ins (`alice`, `/Users/alice`, `example.com`). (keepup)
 
 ## GitHub metadata

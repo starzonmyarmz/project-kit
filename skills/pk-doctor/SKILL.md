@@ -40,6 +40,7 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - The description matches the README one-liner.
    - Wiki and Projects are off.
    - Automatically delete head branches is on.
+   - With `sponsors`, Sponsorships is on: `gh api graphql -f query='{ repository(owner:"<owner>", name:"<name>") { hasSponsorshipsEnabled } }'`.
    - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.
    - Secrets for what the project ships are set (`gh secret list`: names only).
 9. **IDs.**
