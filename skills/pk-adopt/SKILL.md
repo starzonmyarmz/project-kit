@@ -22,7 +22,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `name` | the folder or GitHub repo name |
 | `description` | `gh repo view --json description` |
 | `display_name` | `bundler.toml` `name`, the app's display name, or the README title |
-| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; a Cargo app that depends on `bevy` means `rust-app`; otherwise `other` |
+| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; a Cargo app that depends on `bevy` means `rust-app`; a `pyproject.toml` with a `[project] version` means `python`; otherwise `other` |
 | `app_id` | always `com.iamdanielmarino.<name>`. Note the current `CLAP_ID` or bundle ID if it differs |
 | `vst3_class_id` | always `<TypeName>DanielMarino`, cut or padded to 16. Note the current `VST3_CLASS_ID` if it differs |
 | `public` | `gh repo view --json visibility` |
@@ -30,7 +30,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `sponsors` | `true` for public repos, unless the user doesn't want the Sponsor button there |
 | `year` | the year of the first commit |
-| `starter` | `false` (vst-plugin, swift-app and rust-app), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
+| `starter` | `false` (vst-plugin, swift-app, rust-app and python), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
 | `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |
 | `screenshot` | `false` if the editor can't be screenshotted from a mock in a browser (vst-plugin only) |
 **IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:
@@ -69,6 +69,8 @@ Work through `git status` and `git diff` in the worktree:
 ## 4. Check it
 
 Run the stack's checks, the same ones `pk-new-project` lists, plus `scripts/release --dry-run`.
+
+For a Python repo, the kit adds `tests/test_version.py`, which fails while `__version__` is a literal: switch it to `importlib.metadata.version(...)` in a `fix:` commit with a changelog line, since `--version` was wrong for anyone who had it installed. `uvx ruff format .` and `uvx ruff check --fix .` then get the same formatting-commit treatment as `cargo fmt` below.
 
 For a Rust repo, `cargo fmt --all` will reflow hand-wrapped code under the kit's `rustfmt.toml`. Do that as its own commit after the adoption commit, then add that commit's hash to `.git-blame-ignore-revs` (with a comment saying what it was) in a third commit.
 

@@ -94,6 +94,7 @@ Topics: `vibe-coded`, plus the ones for the stack and the places it ships.
 | vst-plugin | `audio-plugin`, `vst3`, `clap`, `rust`, `nice-plug`, `music-production` |
 | swift-app | `swift`, `macos` (add `swiftui`, `appkit`, `menu-bar-app` as they fit) |
 | rust-app | `rust`, `bevy-engine`, `egui`, `macos`, `windows`, `linux` (add `game` if it is one) |
+| python | `python` (add `cli` if it's a command-line tool) |
 | Homebrew cask | `homebrew-cask` |
 | Homebrew formula | `homebrew-formula` |
 | itch.io | `itch-io` |
