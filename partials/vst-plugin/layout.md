@@ -9,4 +9,4 @@
 {%- endif %}
 - `xtask/`, `bundler.toml`: nice-plug's bundler.
 - `scripts/`: install, clap-validator, screenshot and release.
-- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot`, `port-jsfx` and `bless-goldens`. Use them rather than working from memory.
+- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot` and `bless-goldens`. Use them rather than working from memory.

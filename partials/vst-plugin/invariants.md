@@ -41,7 +41,3 @@ Plugins pin the `patina` branch of [{{ owner }}/nice-plug](https://github.com/{{
 
 - Upgrading: rebase `patina` onto upstream, push, and bump the `rev` in `plugin/` and `xtask/` `Cargo.toml` in every plugin. Then run the tests and clap-validator in each.
 - Don't send the patch upstream. It was written with AI, and nice-plug's [AI policy](https://rust.audio/community/ai/) doesn't accept AI-written code, PR descriptions or comments.
-
-### Ported from a JSFX
-
-If the plugin started from a JSFX, never mention the JSFX anywhere in this repo: not in the README, docs, code, comments, test names, parameter tables or commit messages.

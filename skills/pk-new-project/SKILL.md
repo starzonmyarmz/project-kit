@@ -126,6 +126,6 @@ Finish with:
 - what's left to the user.
 
 Then suggest the first step for the stack:
-- vst-plugin: `design-kickoff`, or `port-jsfx` if there's a JSFX to start from.
+- vst-plugin: `design-kickoff`.
 - A project with DESIGN.md or VOICE.md: fill in "The look in one line" / "The voice in one line" together before building.
 - A multi-step build: offer a `docs/spec/` roadmap with acceptance checks, as in keepup.

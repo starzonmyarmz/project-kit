@@ -81,12 +81,6 @@ starter:
   default: true
   when: "{{ stack == 'vst-plugin' }}"
 
-port_jsfx:
-  type: bool
-  help: Include the port-jsfx skill, for porting a REAPER JSFX effect?
-  default: true
-  when: "{{ stack == 'vst-plugin' }}"
-
 menu_bar:
   type: bool
   help: Menu bar app, with no Dock icon or main window?

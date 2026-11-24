@@ -230,7 +230,7 @@ Only for public projects that want outside contributors (roxel):
 | `pk-changelog` | kit | drafts `[Unreleased]` lines from commits since the tag in user-facing words |
 | `pk-doctor` | kit | reports drift from this file, changes nothing |
 | `screenshot`, `design-kickoff` | vst-plugin | (generalize when a second stack needs them) |
-| `bless-goldens`, `port-jsfx` | vst-plugin | |
+| `bless-goldens` | vst-plugin | |
 | `playtest`, `balance`, `devlog` | game | |
 
 Skills that run multi-step rituals use `disable-model-invocation: true`, so they only run when invoked by name.
