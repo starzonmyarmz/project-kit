@@ -7,6 +7,14 @@ write_version() {
   sed -i '' "s/^version = \".*\"/version = \"$1\"/" Cargo.toml
   cargo update --workspace --quiet
 }
+{%- elif stack == 'python' -%}
+read_version() {
+  sed -n 's/^version = "\(.*\)"/\1/p' pyproject.toml | head -1
+}
+
+write_version() {
+  sed -i '' "1,/^version = /s/^version = \".*\"/version = \"$1\"/" pyproject.toml
+}
 {%- else -%}
 read_version() {
   git describe --tags --abbrev=0 --match 'v[0-9]*' 2>/dev/null | sed 's/^v//' || echo 0.0.0

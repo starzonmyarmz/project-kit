@@ -19,6 +19,9 @@ _skip_if_exists:
   - packaging/**
   - "{% if stack == 'rust-app' %}Cargo.toml{% endif %}"
   - "{% if stack == 'rust-app' %}src/**{% endif %}"
+  - "{% if stack == 'python' %}pyproject.toml{% endif %}"
+  - "{% if stack == 'python' %}src/**{% endif %}"
+  - "{% if stack == 'python' %}tests/**{% endif %}"
 
 name:
   type: str
@@ -53,6 +56,7 @@ stack:
     VST plugin (VST3 + CLAP): vst-plugin
     Mac app (SwiftPM): swift-app
     Desktop app for macOS, Windows and Linux (Rust + Bevy): rust-app
+    Python package or CLI (pyproject.toml): python
     Something else (version from tags only): other
 
 crate:
@@ -82,7 +86,7 @@ starter:
   type: bool
   help: Include the starter-only files (example engine, golden render and UI mock, or example app and test)? Say no when adopting an existing repo.
   default: true
-  when: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app'] }}"
+  when: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app', 'python'] }}"
 
 goldens:
   type: bool

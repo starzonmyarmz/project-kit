@@ -1,0 +1,3 @@
+- The version lives only in `pyproject.toml`. Read it at runtime with `importlib.metadata.version("{{ name }}")`; a literal `__version__` goes stale at the next release.
+- Don't bump the version by hand. It only changes at release.
+- Tags are always `v` + the exact version. A tag without the `v` never triggers the release workflow.

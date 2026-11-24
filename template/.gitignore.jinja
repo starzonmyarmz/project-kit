@@ -5,6 +5,13 @@
 .screenshots/
 {%- if stack in ['vst-plugin', 'rust-app'] %}
 target/
+{%- elif stack == 'python' %}
+__pycache__/
+*.egg-info/
+.venv/
+venv/
+build/
+dist/
 {%- elif stack == 'swift-app' %}
 .build/
 .swiftpm/

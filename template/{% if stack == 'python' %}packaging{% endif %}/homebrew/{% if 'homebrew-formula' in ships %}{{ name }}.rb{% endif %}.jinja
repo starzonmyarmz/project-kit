@@ -1,0 +1,18 @@
+class {{ type_name }} < Formula
+  desc {{ description | tojson }}
+  homepage "https://github.com/{{ owner }}/{{ name }}"
+  url "https://github.com/{{ owner }}/{{ name }}.git", tag: "v@VERSION@", using: :git
+  license "MIT"
+
+  depends_on "python@3.12"
+
+  def install
+    system Formula["python@3.12"].opt_bin/"python3.12", "-m", "venv", libexec
+    system libexec/"bin/pip", "install", "--no-cache-dir", buildpath
+    bin.install_symlink libexec/"bin/{{ name }}"
+  end
+
+  test do
+    assert_match version.to_s, shell_output("#{bin}/{{ name }} --version")
+  end
+end

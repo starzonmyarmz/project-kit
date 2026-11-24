@@ -6,7 +6,7 @@ Starts new projects with my conventions already in place: CI, tests, changelog, 
 
 ## How it works
 
-The kit is one [Copier](https://copier.readthedocs.io) template. `copier.yml` asks for the name, the stack (`vst-plugin`, `swift-app`, `rust-app`, `other`, …), where it ships, and which optional docs to add. Files that only some projects need have conditional names (`{% if oss_community %}SECURITY.md{% endif %}.jinja`). Shared files such as AGENTS.md and README pull their stack-specific parts from `partials/<stack>/`.
+The kit is one [Copier](https://copier.readthedocs.io) template. `copier.yml` asks for the name, the stack (`vst-plugin`, `swift-app`, `rust-app`, `python`, `other`, …), where it ships, and which optional docs to add. Files that only some projects need have conditional names (`{% if oss_community %}SECURITY.md{% endif %}.jinja`). Shared files such as AGENTS.md and README pull their stack-specific parts from `partials/<stack>/`.
 
 ```
 copier.yml       the questions
