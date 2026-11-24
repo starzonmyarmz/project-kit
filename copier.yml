@@ -77,9 +77,9 @@ vst3_class_id:
 
 starter:
   type: bool
-  help: Include the starter-only files (example golden render, generated UI mock)? Say no when adopting an existing repo.
+  help: Include the starter-only files (example engine, golden render and UI mock, or example app and test)? Say no when adopting an existing repo.
   default: true
-  when: "{{ stack == 'vst-plugin' }}"
+  when: "{{ stack in ['vst-plugin', 'swift-app'] }}"
 
 goldens:
   type: bool
