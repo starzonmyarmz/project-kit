@@ -1,6 +1,6 @@
 cask "{{ name }}" do
   version "@VERSION@"
-  sha256 "@SHA256@"
+  sha256 "@SHA256:{{ name }}-@VERSION@-macos.zip@"
 
   url "https://github.com/{{ owner }}/{{ name }}/releases/download/v#{version}/{{ name }}-#{version}-macos.zip"
   name "{{ display_name }}"

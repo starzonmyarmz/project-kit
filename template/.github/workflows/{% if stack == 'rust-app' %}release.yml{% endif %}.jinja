@@ -170,37 +170,6 @@ jobs:
             --notes-file notes.md \
             --verify-tag $prerelease
 {%- endraw %}
-{%- if 'homebrew-cask' in ships %}
-
-  homebrew:
-    needs: [version, release]
-    runs-on: ubuntu-latest
-    env:
-      VERSION: ${{ '{{' }} needs.version.outputs.version {{ '}}' }}
-      HOMEBREW_TAP_TOKEN: ${{ '{{' }} secrets.HOMEBREW_TAP_TOKEN {{ '}}' }}
-    steps:
-      - uses: actions/checkout@v7
-      - uses: actions/download-artifact@v8
-        with:
-          name: macos
-          path: dist
-      - name: Update the Homebrew cask
-        run: |
-          if [ -z "$HOMEBREW_TAP_TOKEN" ]; then
-            echo "::warning::HOMEBREW_TAP_TOKEN isn't set, so the cask wasn't updated"
-            exit 0
-          fi
-          SHA="$(sha256sum "dist/$CRATE-$VERSION-macos.zip" | cut -d' ' -f1)"
-          git clone "https://x-access-token:$HOMEBREW_TAP_TOKEN@github.com/{{ owner }}/homebrew-tap.git" "$RUNNER_TEMP/tap"
-          mkdir -p "$RUNNER_TEMP/tap/Casks"
-          sed -e "s/@VERSION@/$VERSION/" -e "s/@SHA256@/$SHA/" "packaging/$CRATE.rb" > "$RUNNER_TEMP/tap/Casks/$CRATE.rb"
-          cd "$RUNNER_TEMP/tap"
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add "Casks/$CRATE.rb"
-          git commit -m "chore($CRATE): update to $VERSION"
-          git push
-{%- endif %}
 {%- if 'itch' in ships %}
 
   itch:
