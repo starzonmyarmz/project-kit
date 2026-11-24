@@ -48,4 +48,4 @@ Running the kit over a repo that didn't start from it needs a judgment pass. A t
 
 1. Edit CONVENTIONS.md.
 2. Update the templates and skills to match.
-3. Run `copier update` in the projects that should catch up, and review the diff.
+3. Run `copier update` in the projects that should catch up, and review the diff. If a template file now sits behind an answer, the first update deletes a project's own file at that path, even a protected one: restore it with `git checkout HEAD -- <path>` before committing.
