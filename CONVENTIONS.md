@@ -130,6 +130,7 @@ Publish jobs, depending on how the project ships:
 | Homebrew tap | No job. `packaging/<name>.rb` is a template (`@VERSION@`, `@SHA256:<file>@`) listed in `starzonmyarmz/homebrew-tap`'s `projects` file. The tap's Update workflow renders it from the latest release's `SHA256SUMS` hourly, or when `/pk-release` starts it | none |
 | itch.io | Push with butler and `--userversion X.Y.Z` | `BUTLER_API_KEY`, variable `ITCH_TARGET` |
 | GitHub Pages | Separate `pages.yml` on push to `main` (sites and docs aren't versioned) | none |
+| Nowhere (`local`, Mac apps only) | No build on GitHub at all, not even a check workflow: the app is built and installed from source with `scripts/install.sh`. The release is notes only (keepup) | none |
 
 macOS builds are self-signed, not notarized:
 - One long-lived certificate per app, so Launch at Login and other permissions survive updates. (hogs)
