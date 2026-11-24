@@ -17,6 +17,8 @@ _skip_if_exists:
   - Sources/**
   - Tests/**
   - packaging/**
+  - "{% if stack == 'rust-app' %}Cargo.toml{% endif %}"
+  - "{% if stack == 'rust-app' %}src/**{% endif %}"
 
 name:
   type: str
@@ -50,6 +52,7 @@ stack:
   choices:
     VST plugin (VST3 + CLAP): vst-plugin
     Mac app (SwiftPM): swift-app
+    Desktop app for macOS, Windows and Linux (Rust + Bevy): rust-app
     Something else (version from tags only): other
 
 crate:
@@ -66,7 +69,7 @@ app_id:
   type: str
   help: App ID, used as the bundle ID or CLAP ID (never change it after the first release)
   default: "com.iamdanielmarino.{{ name }}"
-  when: "{{ stack in ['vst-plugin', 'swift-app'] }}"
+  when: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app'] }}"
 
 vst3_class_id:
   type: str
@@ -79,7 +82,7 @@ starter:
   type: bool
   help: Include the starter-only files (example engine, golden render and UI mock, or example app and test)? Say no when adopting an existing repo.
   default: true
-  when: "{{ stack in ['vst-plugin', 'swift-app'] }}"
+  when: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app'] }}"
 
 goldens:
   type: bool
@@ -119,7 +122,7 @@ ships:
 design_doc:
   type: bool
   help: Add DESIGN.md (anything with a UI)?
-  default: "{{ stack in ['vst-plugin', 'swift-app'] }}"
+  default: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app'] }}"
 
 voice_doc:
   type: bool

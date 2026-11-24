@@ -1,0 +1,39 @@
+; Build: ISCC /DAppVersion=1.2.3 /O<outdir> packaging\windows\{{ name }}.iss
+; Expects target\release\{{ type_name }}.exe to exist.
+
+#ifndef AppVersion
+  #define AppVersion "0.0.0"
+#endif
+
+[Setup]
+; Never change AppId: Windows uses it to find the installed copy on upgrade.
+AppId={{ app_id }}
+AppName={{ display_name }}
+AppVersion={% raw %}{#AppVersion}{% endraw %}
+AppPublisher={{ author }}
+AppPublisherURL=https://github.com/{{ owner }}/{{ name }}
+SourceDir=..\..
+DefaultDirName={% raw %}{autopf}{% endraw %}\{{ display_name }}
+DisableProgramGroupPage=yes
+PrivilegesRequired=lowest
+PrivilegesRequiredOverridesAllowed=dialog
+OutputBaseFilename={{ name }}-setup
+UninstallDisplayIcon={% raw %}{app}{% endraw %}\{{ type_name }}.exe
+ArchitecturesAllowed=x64compatible
+ArchitecturesInstallIn64BitMode=x64compatible
+Compression=lzma2
+SolidCompression=yes
+WizardStyle=modern
+{% raw %}
+[Tasks]
+Name: desktopicon; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+{% endraw %}
+[Files]
+Source: "target\release\{{ type_name }}.exe"; DestDir: "{% raw %}{app}{% endraw %}"; Flags: ignoreversion
+
+[Icons]
+Name: "{% raw %}{autoprograms}{% endraw %}\{{ display_name }}"; Filename: "{% raw %}{app}{% endraw %}\{{ type_name }}.exe"
+Name: "{% raw %}{autodesktop}{% endraw %}\{{ display_name }}"; Filename: "{% raw %}{app}{% endraw %}\{{ type_name }}.exe"; Tasks: desktopicon
+
+[Run]
+Filename: "{% raw %}{app}{% endraw %}\{{ type_name }}.exe"; Description: "{% raw %}{cm:LaunchProgram,{% endraw %}{{ display_name }}}"; Flags: nowait postinstall skipifsilent

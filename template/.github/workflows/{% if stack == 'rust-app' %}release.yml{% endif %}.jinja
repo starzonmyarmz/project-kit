@@ -1,0 +1,234 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ '{{' }} github.ref_name {{ '}}' }}
+
+env:
+  CARGO_INCREMENTAL: 0
+  CRATE: {{ name }}
+  APP: {{ display_name }}
+  BIN: {{ type_name }}
+{% raw %}
+jobs:
+  version:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.check.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - id: check
+        run: |
+          source scripts/version.sh
+          version=$(read_version)
+          if ! echo "$version" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-[0-9A-Za-z.-]+)?$'; then
+            echo "::error::Cargo.toml's version $version isn't semver"
+            exit 1
+          fi
+          if [ "$GITHUB_REF_NAME" != "v$version" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME doesn't match Cargo.toml's version $version"
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+
+  macos:
+    needs: version
+    runs-on: macos-latest
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - run: rustup target add aarch64-apple-darwin x86_64-apple-darwin
+      - uses: Swatinem/rust-cache@v2
+      - uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-bundle
+      - run: cargo test --workspace
+
+      - name: Import signing certificate
+        env:
+          SIGNING_CERT_P12: ${{ secrets.SIGNING_CERT_P12 }}
+          SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
+        run: |
+          if [ -z "$SIGNING_CERT_P12" ]; then
+            echo "::error::SIGNING_CERT_P12 isn't set. An ad hoc signature would make macOS forget the app's permissions on update."
+            exit 1
+          fi
+          KEYCHAIN="$RUNNER_TEMP/signing.keychain-db"
+          KEYCHAIN_PASSWORD="$(uuidgen)"
+          echo "$SIGNING_CERT_P12" | base64 --decode > "$RUNNER_TEMP/cert.p12"
+          security create-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security set-keychain-settings -lut 3600 "$KEYCHAIN"
+          security unlock-keychain -p "$KEYCHAIN_PASSWORD" "$KEYCHAIN"
+          security import "$RUNNER_TEMP/cert.p12" -k "$KEYCHAIN" -P "$SIGNING_CERT_PASSWORD" -T /usr/bin/codesign
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KEYCHAIN_PASSWORD" "$KEYCHAIN" > /dev/null
+          openssl pkcs12 -in "$RUNNER_TEMP/cert.p12" -passin env:SIGNING_CERT_PASSWORD -nokeys -clcerts -legacy -out "$RUNNER_TEMP/cert.pem" \
+            || openssl pkcs12 -in "$RUNNER_TEMP/cert.p12" -passin env:SIGNING_CERT_PASSWORD -nokeys -clcerts -out "$RUNNER_TEMP/cert.pem"
+          security list-keychains -d user -s "$KEYCHAIN" $(security list-keychains -d user | tr -d '"')
+          sudo security add-trusted-cert -d -r trustRoot -p codeSign -k /Library/Keychains/System.keychain "$RUNNER_TEMP/cert.pem"
+          rm "$RUNNER_TEMP/cert.p12"
+          echo "SIGN_KEYCHAIN=$KEYCHAIN" >> "$GITHUB_ENV"
+          echo "SIGN_IDENTITY=$(openssl x509 -in "$RUNNER_TEMP/cert.pem" -noout -fingerprint -sha1 | cut -d= -f2 | tr -d :)" >> "$GITHUB_ENV"
+
+      - name: Build a universal app
+        run: |
+          set -euo pipefail
+          cargo bundle --release --format osx --target aarch64-apple-darwin
+          cargo build --release --target x86_64-apple-darwin
+          app="target/aarch64-apple-darwin/release/bundle/osx/$APP.app"
+          lipo -create "$app/Contents/MacOS/$BIN" "target/x86_64-apple-darwin/release/$BIN" -output "$RUNNER_TEMP/$BIN"
+          mv "$RUNNER_TEMP/$BIN" "$app/Contents/MacOS/$BIN"
+          lipo "$app/Contents/MacOS/$BIN" -verify_arch arm64 x86_64
+          codesign --force --deep --timestamp=none --keychain "$SIGN_KEYCHAIN" --sign "$SIGN_IDENTITY" "$app"
+          codesign --verify --strict "$app"
+          mkdir -p dist
+          ditto -c -k --keepParent "$app" "dist/$CRATE-$VERSION-macos.zip"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: macos
+          if-no-files-found: error
+          path: dist/*
+
+  windows:
+    needs: version
+    runs-on: windows-latest
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release
+      - name: Zip and build the installer
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist | Out-Null
+          Compress-Archive -Path "target/release/$env:BIN.exe" -DestinationPath "dist/$env:CRATE-$env:VERSION-windows.zip"
+          choco install innosetup --no-progress -y
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+          & "${env:ProgramFiles(x86)}\Inno Setup 6\ISCC.exe" "/DAppVersion=$env:VERSION" "/Odist" "/F$env:CRATE-$env:VERSION-setup" "packaging\windows\$env:CRATE.iss"
+          if ($LASTEXITCODE) { exit $LASTEXITCODE }
+      - uses: actions/upload-artifact@v7
+        with:
+          name: windows
+          if-no-files-found: error
+          path: dist/*
+
+  linux:
+    needs: version
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install Bevy's Linux dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwayland-dev libxkbcommon-dev
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release
+      - name: Tar
+        run: |
+          set -euo pipefail
+          dir="$CRATE-$VERSION"
+          mkdir -p "$dir" dist
+          cp "target/release/$BIN" packaging/linux/install.sh "packaging/linux/$CRATE.desktop" "$dir/"
+          tar -czf "dist/$dir-linux.tar.gz" "$dir"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: linux
+          if-no-files-found: error
+          path: dist/*
+
+  release:
+    needs: [version, macos, windows, linux]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ needs.version.outputs.version }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          (cd dist && sha256sum "$CRATE-$VERSION"-* > SHA256SUMS)
+          scripts/changelog-notes "$VERSION" > notes.md
+          prerelease=
+          case "$VERSION" in *-*) prerelease=--prerelease ;; esac
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "$APP $VERSION" \
+            --notes-file notes.md \
+            --verify-tag $prerelease
+{%- endraw %}
+{%- if 'homebrew-cask' in ships %}
+
+  homebrew:
+    needs: [version, release]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ '{{' }} needs.version.outputs.version {{ '}}' }}
+      HOMEBREW_TAP_TOKEN: ${{ '{{' }} secrets.HOMEBREW_TAP_TOKEN {{ '}}' }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v8
+        with:
+          name: macos
+          path: dist
+      - name: Update the Homebrew cask
+        run: |
+          if [ -z "$HOMEBREW_TAP_TOKEN" ]; then
+            echo "::warning::HOMEBREW_TAP_TOKEN isn't set, so the cask wasn't updated"
+            exit 0
+          fi
+          SHA="$(sha256sum "dist/$CRATE-$VERSION-macos.zip" | cut -d' ' -f1)"
+          git clone "https://x-access-token:$HOMEBREW_TAP_TOKEN@github.com/{{ owner }}/homebrew-tap.git" "$RUNNER_TEMP/tap"
+          mkdir -p "$RUNNER_TEMP/tap/Casks"
+          sed -e "s/@VERSION@/$VERSION/" -e "s/@SHA256@/$SHA/" "packaging/$CRATE.rb" > "$RUNNER_TEMP/tap/Casks/$CRATE.rb"
+          cd "$RUNNER_TEMP/tap"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "Casks/$CRATE.rb"
+          git commit -m "chore($CRATE): update to $VERSION"
+          git push
+{%- endif %}
+{%- if 'itch' in ships %}
+
+  itch:
+    needs: [version, release]
+    runs-on: ubuntu-latest
+    env:
+      VERSION: ${{ '{{' }} needs.version.outputs.version {{ '}}' }}
+      BUTLER_API_KEY: ${{ '{{' }} secrets.BUTLER_API_KEY {{ '}}' }}
+      ITCH_TARGET: ${{ '{{' }} vars.ITCH_TARGET {{ '}}' }}
+      BUTLER_VERSION: 15.32.0
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - name: Push each platform to its itch.io channel
+        run: |
+          set -euo pipefail
+          if [ -z "$BUTLER_API_KEY" ] || [ -z "$ITCH_TARGET" ]; then
+            echo "::warning::BUTLER_API_KEY or ITCH_TARGET isn't set, so nothing went to itch.io"
+            exit 0
+          fi
+          curl -fsSL -o butler.zip "https://broth.itch.zone/butler/linux-amd64/$BUTLER_VERSION/archive/default"
+          unzip -q butler.zip
+          chmod +x butler
+          mkdir linux
+          tar -xzf "dist/$CRATE-$VERSION-linux.tar.gz" -C linux
+          ./butler push "dist/$CRATE-$VERSION-macos.zip" "$ITCH_TARGET:macos" --userversion "$VERSION"
+          ./butler push "dist/$CRATE-$VERSION-windows.zip" "$ITCH_TARGET:windows" --userversion "$VERSION"
+          ./butler push linux "$ITCH_TARGET:linux" --userversion "$VERSION"
+{%- endif %}

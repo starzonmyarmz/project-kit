@@ -1,0 +1,25 @@
+#!/bin/bash
+# Builds the app as <version>-dev+<sha>, replaces /Applications/{{ display_name }}.app and opens it (macOS).
+# Set SIGN_IDENTITY to your long-lived local certificate so permissions survive reinstalls.
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+command -v cargo-bundle >/dev/null || { echo "install.sh: needs cargo-bundle (cargo install cargo-bundle)" >&2; exit 1; }
+
+source scripts/version.sh
+build=$(git rev-parse --short HEAD)
+if [[ -n $(git status --porcelain) ]]; then
+  build="$build.dirty"
+fi
+APP_VERSION="$(read_version)-dev+$build"
+export APP_VERSION
+
+cargo bundle --release --format osx
+app="target/release/bundle/osx/{{ display_name }}.app"
+codesign --force --deep --sign "${SIGN_IDENTITY:--}" "$app"
+
+osascript -e 'tell application id "{{ app_id }}" to quit' 2>/dev/null || true
+rm -rf "/Applications/{{ display_name }}.app"
+ditto "$app" "/Applications/{{ display_name }}.app"
+open "/Applications/{{ display_name }}.app"
+echo "Installed {{ display_name }} $APP_VERSION"

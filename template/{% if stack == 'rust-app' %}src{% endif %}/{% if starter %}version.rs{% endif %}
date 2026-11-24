@@ -1,0 +1,31 @@
+/// The version people see. `scripts/install.sh` sets `APP_VERSION` to
+/// `X.Y.Z-dev+<sha>` for local builds; releases show the Cargo.toml version.
+pub fn version() -> &'static str {
+    display_version(env!("CARGO_PKG_VERSION"), option_env!("APP_VERSION"))
+}
+
+fn display_version<'a>(package: &'a str, override_version: Option<&'a str>) -> &'a str {
+    match override_version {
+        Some(version) if !version.is_empty() => version,
+        _ => package,
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn release_builds_show_the_package_version() {
+        assert_eq!(display_version("1.2.0", None), "1.2.0");
+        assert_eq!(display_version("1.2.0", Some("")), "1.2.0");
+    }
+
+    #[test]
+    fn local_builds_show_the_dev_version() {
+        assert_eq!(
+            display_version("1.2.0", Some("1.2.0-dev+abc1234")),
+            "1.2.0-dev+abc1234"
+        );
+    }
+}

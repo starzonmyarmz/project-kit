@@ -42,7 +42,7 @@ Then ask the rest in one AskUserQuestion call:
    - Sponsor button (FUNDING.yml; public only, preselect when public)
    - Community files (CONTRIBUTING, SECURITY, code of conduct, issue forms; public only)
 
-The display name defaults to the title-cased name (`sputnik` becomes `Sputnik`). Mention the default and let the user change it. The same goes for the app ID: `com.iamdanielmarino.<name>` for plugins and Mac apps.
+The display name defaults to the title-cased name (`sputnik` becomes `Sputnik`). Mention the default and let the user change it. The same goes for the app ID: `com.iamdanielmarino.<name>` for plugins and apps.
 
 ## 3. Render
 
@@ -68,6 +68,7 @@ Check that it builds before going public:
 |---|---|
 | vst-plugin | `cargo fmt --all --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` (the first build takes a few minutes) |
 | swift-app | `swift format lint --strict --recursive Package.swift Sources Tests scripts/make-icon.swift`, `swift test`, `scripts/build-app.sh` |
+| rust-app | `cargo fmt --all --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` (the first Bevy build takes several minutes) |
 | other | `scripts/release --dry-run` exits with "nothing to release" |
 
 If a check fails, the kit has a bug. Fix it in the kit, commit it there, and render again. Don't patch the new project by hand.
@@ -92,6 +93,7 @@ Topics: `vibe-coded`, plus the ones for the stack and the places it ships.
 |---|---|
 | vst-plugin | `audio-plugin`, `vst3`, `clap`, `rust`, `nice-plug`, `music-production` |
 | swift-app | `swift`, `macos` (add `swiftui`, `appkit`, `menu-bar-app` as they fit) |
+| rust-app | `rust`, `bevy-engine`, `egui`, `macos`, `windows`, `linux` (add `game` if it is one) |
 | Homebrew cask | `homebrew-cask` |
 | Homebrew formula | `homebrew-formula` |
 | itch.io | `itch-io` |
@@ -114,8 +116,8 @@ Never ask the user to paste a secret into the chat. For each secret the project'
 ```
 
 - `HOMEBREW_TAP_TOKEN` is a fine-grained token with Contents read and write on `starzonmyarmz/homebrew-tap`. The same token works for every project.
-- `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (Mac apps): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
-- For itch.io, also set the variable yourself: `gh variable set ITCH_TARGET -R starzonmyarmz/<name> --body "starzonmyarmz/<name>:<channel>"`.
+- `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (swift-app and rust-app): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
+- For itch.io, also set the variable yourself: `gh variable set ITCH_TARGET -R starzonmyarmz/<name> --body "starzonmyarmz/<name>:<channel>"`. A rust-app pushes each platform to its own channel, so its `ITCH_TARGET` is just `starzonmyarmz/<name>`.
 
 Skip this step when nothing is needed. Then confirm with `gh secret list -R starzonmyarmz/<name>`.
 

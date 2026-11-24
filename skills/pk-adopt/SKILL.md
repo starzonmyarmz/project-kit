@@ -22,7 +22,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `name` | the folder or GitHub repo name |
 | `description` | `gh repo view --json description` |
 | `display_name` | `bundler.toml` `name`, the app's display name, or the README title |
-| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; otherwise `other` |
+| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; a Cargo app that depends on `bevy` means `rust-app`; otherwise `other` |
 | `app_id` | always `com.iamdanielmarino.<name>`. Note the current `CLAP_ID` or bundle ID if it differs |
 | `vst3_class_id` | always `<TypeName>DanielMarino`, cut or padded to 16. Note the current `VST3_CLASS_ID` if it differs |
 | `public` | `gh repo view --json visibility` |
@@ -30,12 +30,13 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `sponsors` | `true` for public repos, unless the user doesn't want the Sponsor button there |
 | `year` | the year of the first commit |
-| `starter` | `false` (vst-plugin and swift-app), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
+| `starter` | `false` (vst-plugin, swift-app and rust-app), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
 | `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |
 | `screenshot` | `false` if the editor can't be screenshotted from a mock in a browser (vst-plugin only) |
 **IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:
 - Plugins: hosts treat it as a new plugin, so saved projects need it added again.
 - Mac apps: macOS forgets the app's permissions, Launch at Login and preferences.
+- Rust apps: the same on macOS, and the Windows installer no longer finds the old install, so the user ends up with two.
 
 The rendered `lib.rs` (or `Info.plist`) is protected, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. If a release was already out, add a changelog line for the people who have it installed. Before a first release, skip it.
 

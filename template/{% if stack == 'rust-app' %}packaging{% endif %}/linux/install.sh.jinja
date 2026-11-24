@@ -1,0 +1,21 @@
+#!/bin/sh
+# Installs {{ display_name }} for the current user. Run from the unpacked folder; pass --uninstall to remove it.
+set -eu
+
+here="$(cd "$(dirname "$0")" && pwd)"
+data="${XDG_DATA_HOME:-$HOME/.local/share}"
+bin="$HOME/.local/bin"
+
+if [ "${1:-}" = "--uninstall" ]; then
+  rm -f "$bin/{{ type_name }}" "$data/applications/{{ name }}.desktop"
+  echo "{{ display_name }} removed."
+  exit 0
+fi
+
+install -Dm755 "$here/{{ type_name }}" "$bin/{{ type_name }}"
+install -d "$data/applications"
+sed "s|^Exec={{ type_name }}|Exec=$bin/{{ type_name }}|" "$here/{{ name }}.desktop" > "$data/applications/{{ name }}.desktop"
+chmod 644 "$data/applications/{{ name }}.desktop"
+command -v update-desktop-database >/dev/null 2>&1 && update-desktop-database "$data/applications" || true
+
+echo "{{ display_name }} installed to $bin/{{ type_name }}. Find it in your app launcher."

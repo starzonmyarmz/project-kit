@@ -1,0 +1,9 @@
+- The app ID `{{ app_id }}` never changes. It's the macOS bundle ID and the Windows installer's `AppId`: macOS ties permissions and preferences to it, and Windows uses it to find the installed copy on upgrade.
+- The binary is `{{ type_name }}`. The release workflow, the installer and the Linux files all use that name: change them together.
+- Sign releases with the same certificate every time (the `SIGNING_CERT_P12` secret). A new certificate, or ad hoc signing, makes macOS forget the app's permissions on update.
+- Keep logic that's worth testing in plain functions and types, away from Bevy systems. Don't spin up a Bevy `App` in tests.
+- Anything a user should see goes on screen, not to stderr: terminal output is invisible in a packaged app.
+- New fields in saved files or preferences need `#[serde(default)]`, or older files stop opening.
+- Native file dialogs must be async (`rfd::AsyncFileDialog`). A blocking dialog stalls winit's event loop on macOS.
+- Don't bump the version by hand. It only changes at release.
+- After a change to the app, run `scripts/install.sh` so the user can try the real bundle.

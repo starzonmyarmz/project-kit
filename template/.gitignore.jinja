@@ -3,7 +3,7 @@
 .claude/settings.local.json
 .playwright-mcp/
 .screenshots/
-{%- if stack == 'vst-plugin' %}
+{%- if stack in ['vst-plugin', 'rust-app'] %}
 target/
 {%- elif stack == 'swift-app' %}
 .build/

@@ -36,6 +36,8 @@ What was learned the hard way. Add to this list whenever something breaks in a w
 {%- endif %}
 {%- if stack == 'vst-plugin' %}
 - Breaking means a renamed parameter ID or a preset that no longer loads.
+{%- elif stack == 'rust-app' %}
+- Breaking means saved files or preferences that no longer open.
 {%- endif %}
 
 ## Releasing
