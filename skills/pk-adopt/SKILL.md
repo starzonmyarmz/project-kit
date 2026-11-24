@@ -26,12 +26,12 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `app_id` | always `com.iamdanielmarino.<name>`. Note the current `CLAP_ID` or bundle ID if it differs |
 | `vst3_class_id` | always `<TypeName>DanielMarino`, cut or padded to 16. Note the current `VST3_CLASS_ID` if it differs |
 | `public` | `gh repo view --json visibility` |
-| `ships` | what `release.yml` does today |
+| `ships` | what `release.yml` does today. A Mac app nobody downloads, built and installed from source, is `["local"]`: no GitHub build, and releases carry notes only |
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `sponsors` | `true` for public repos, unless the user doesn't want the Sponsor button there |
 | `year` | the year of the first commit |
 | `starter` | `false` (vst-plugin, swift-app, rust-app and python), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
-| `xcodegen` | `true` if the app builds from an XcodeGen `project.yml` (swift-app only). The kit then keeps the version in its `MARKETING_VERSION` and builds with `xcodebuild`, locally only: there's no check workflow, and releases carry notes only. The project, scheme and executable must be named `<TypeName>` |
+| `xcodegen` | `true` if the app builds from an XcodeGen `project.yml` (swift-app only). The kit then keeps the version in its `MARKETING_VERSION` and builds with `xcodebuild`. The project, scheme and executable must be named `<TypeName>` |
 | `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |
 | `screenshot` | `false` if the editor can't be screenshotted from a mock in a browser (vst-plugin only) |
 **IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:

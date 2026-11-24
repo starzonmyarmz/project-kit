@@ -35,7 +35,7 @@ Then ask the rest in one AskUserQuestion call:
    - Something else
    Read the current choices from `copier.yml` rather than this list, since stacks get added.
 2. **Visibility:** Public (recommended) or Private.
-3. **Ships to** (multi-select): GitHub release, Homebrew cask, Homebrew formula, itch.io, GitHub Pages.
+3. **Ships to** (multi-select): GitHub release, Homebrew cask, Homebrew formula, itch.io, GitHub Pages, or, for a Mac app only you will run, Nowhere (`local`, on its own): you build and install it yourself, and GitHub never builds it.
 4. **Extras** (multi-select):
    - DESIGN.md (preselect for anything with a UI)
    - VOICE.md
@@ -115,7 +115,7 @@ Never ask the user to paste a secret into the chat. For each secret the project'
 ! gh secret set BUTLER_API_KEY -R starzonmyarmz/<name>
 ```
 
-- `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (swift-app and rust-app): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
+- `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (swift-app and rust-app, but not a `local` Mac app): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
 - For itch.io, also set the variable yourself: `gh variable set ITCH_TARGET -R starzonmyarmz/<name> --body "starzonmyarmz/<name>:<channel>"`. A rust-app pushes each platform to its own channel, so its `ITCH_TARGET` is just `starzonmyarmz/<name>`.
 
 Skip this step when nothing is needed. Then confirm with `gh secret list -R starzonmyarmz/<name>`.
@@ -124,7 +124,7 @@ Homebrew needs no secret. For a Homebrew cask or formula, add a line for each `p
 
 ## 6. Watch the first CI run
 
-`gh run list -R starzonmyarmz/<name> --limit 3`, then `gh run watch <id> -R starzonmyarmz/<name> --exit-status` on the Check run.
+`gh run list -R starzonmyarmz/<name> --limit 3`, then `gh run watch <id> -R starzonmyarmz/<name> --exit-status` on the Check run. A `local` Mac app has no Check run: run `swift test` and `scripts/install.sh` locally instead.
 
 If it fails, read the failing step's log (`gh run view <id> --log-failed`). Fix the kit if the failure comes from the template, then fix the project in a `fix(CI): …` commit.
 
