@@ -6,4 +6,6 @@ Download the zip from [Releases](https://github.com/{{ owner }}/{{ name }}/relea
 
 ## Tests
 
-`cargo test` runs the engine offline, in host-sized blocks, against stored golden renders and synthetic checks. After an intended change to the sound, rerun with `BLESS=1` to rewrite the renders, and listen to them before committing.
+{% if goldens %}`cargo test` runs the engine offline, in host-sized blocks, against stored golden renders and synthetic checks. After an intended change to the sound, rerun with `BLESS=1` to rewrite the renders, and listen to them before committing.
+{%- else %}`cargo test --workspace` runs the engine offline.
+{%- endif %}

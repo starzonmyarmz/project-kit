@@ -81,6 +81,18 @@ starter:
   default: true
   when: "{{ stack == 'vst-plugin' }}"
 
+goldens:
+  type: bool
+  help: Test the engine against golden renders (test helpers, bless-goldens skill)?
+  default: true
+  when: "{{ stack == 'vst-plugin' }}"
+
+screenshot:
+  type: bool
+  help: Take the README screenshot from the editor's mock (scripts, workflow, skill)?
+  default: true
+  when: "{{ stack == 'vst-plugin' }}"
+
 menu_bar:
   type: bool
   help: Menu bar app, with no Dock icon or main window?

@@ -30,6 +30,8 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
 | `year` | the year of the first commit |
 | `starter` | `false` (vst-plugin only), so the kit's starter-only files (example golden render, generated UI mock) are never added, now or on later updates |
+| `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |
+| `screenshot` | `false` if the editor can't be screenshotted from a mock in a browser (vst-plugin only) |
 **IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:
 - Plugins: hosts treat it as a new plugin, so saved projects need it added again.
 - Mac apps: macOS forgets the app's permissions, Launch at Login and preferences.
