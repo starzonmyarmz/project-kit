@@ -28,6 +28,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `public` | `gh repo view --json visibility` |
 | `ships` | what `release.yml` does today |
 | `design_doc`, `voice_doc` | whether the repo has design or voice guidance (in its own file, or inside CLAUDE.md) |
+| `sponsors` | `true` for public repos, unless the user doesn't want the Sponsor button there |
 | `year` | the year of the first commit |
 | `starter` | `false` (vst-plugin and swift-app), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
 | `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |

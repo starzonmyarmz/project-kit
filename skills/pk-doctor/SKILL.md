@@ -35,6 +35,7 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - `.gitignore` covers the baseline in CONVENTIONS.
    - `.worktreeinclude` exists where the stack needs one.
    - CODEOWNERS is present.
+   - A public repo has `.github/FUNDING.yml`, unless `.copier-answers.yml` says `sponsors: false`.
 8. **GitHub** (`gh repo view --json description,repositoryTopics,homepageUrl,visibility`)
    - The description matches the README one-liner.
    - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.

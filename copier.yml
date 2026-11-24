@@ -126,6 +126,12 @@ voice_doc:
   help: Add VOICE.md (anything with copy or personality)?
   default: false
 
+sponsors:
+  type: bool
+  help: Show the GitHub Sponsors button (FUNDING.yml)?
+  default: "{{ public }}"
+  when: "{{ public }}"
+
 oss_community:
   type: bool
   help: Add CONTRIBUTING, SECURITY, CODE_OF_CONDUCT and issue forms?

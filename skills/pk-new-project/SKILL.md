@@ -39,6 +39,7 @@ Then ask the rest in one AskUserQuestion call:
 4. **Extras** (multi-select):
    - DESIGN.md (preselect for anything with a UI)
    - VOICE.md
+   - Sponsor button (FUNDING.yml; public only, preselect when public)
    - Community files (CONTRIBUTING, SECURITY, code of conduct, issue forms; public only)
 
 The display name defaults to the title-cased name (`sputnik` becomes `Sputnik`). Mention the default and let the user change it. The same goes for the app ID: `com.iamdanielmarino.<name>` for plugins and Mac apps.
@@ -51,7 +52,7 @@ One `copier copy` with every answer passed as data, so it asks nothing:
 copier copy --defaults --vcs-ref HEAD \
   -d name=<name> -d "description=<description>" -d "display_name=<Display Name>" \
   -d year=<current year> -d stack=<stack> -d public=<true|false> \
-  -d 'ships=["github-release", ...]' -d design_doc=<bool> -d voice_doc=<bool> -d oss_community=<bool> \
+  -d 'ships=["github-release", ...]' -d design_doc=<bool> -d voice_doc=<bool> -d sponsors=<bool> -d oss_community=<bool> \
   <kit> ~/Code/<name>
 ```
 
