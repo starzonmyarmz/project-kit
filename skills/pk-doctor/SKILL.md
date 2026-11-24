@@ -36,9 +36,10 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - `.worktreeinclude` exists where the stack needs one.
    - CODEOWNERS is present.
    - A public repo has `.github/FUNDING.yml`, unless `.copier-answers.yml` says `sponsors: false`.
-8. **GitHub** (`gh repo view --json description,repositoryTopics,homepageUrl,visibility,hasWikiEnabled,hasProjectsEnabled`)
+8. **GitHub** (`gh repo view --json description,repositoryTopics,homepageUrl,visibility,hasWikiEnabled,hasProjectsEnabled,deleteBranchOnMerge`)
    - The description matches the README one-liner.
    - Wiki and Projects are off.
+   - Automatically delete head branches is on.
    - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.
    - Secrets for what the project ships are set (`gh secret list`: names only).
 9. **IDs.**
