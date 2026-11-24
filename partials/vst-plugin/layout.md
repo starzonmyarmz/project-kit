@@ -8,5 +8,4 @@
 - `ui/index.html`: the whole editor, compiled into the plugin, with a hand-written mock bridge (`mockBridge()`) for running it in a browser.
 {%- endif %}
 - `xtask/`, `bundler.toml`: nice-plug's bundler.
-- `scripts/`: install, clap-validator, screenshot and release.
-- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot` and `bless-goldens`. Use them rather than working from memory.
+- `scripts/`: install, clap-validator, screenshot and release.- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot` and `bless-goldens`. Use them rather than working from memory.
