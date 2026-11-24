@@ -62,7 +62,7 @@ SemVer, with one source of truth per stack:
 
 Tags are always `v` + the exact version (`v1.4.0`). A tag without the `v` never triggers CI. A version with `-` (e.g. `1.0.0-beta.1`) is published as a pre-release.
 
-Versions change only at release. Builds installed locally between releases call themselves `X.Y.Z-dev+<short sha>`: a plugin panel or About window shows that, so you can tell which build is installed. Release builds show `X.Y.Z`. Mac apps leave the hash out: their build number is the commit count (`git rev-list --count HEAD`), which already says which commit it is, so About reads `Version 1.2.0-dev (412)` between releases and `Version 1.2.0 (412)` for a release. (keepup) This replaces the plugins' bump-after-every-change rule.
+Versions change only at release. Builds installed locally between releases call themselves `X.Y.Z-dev+<short sha>`, and a Mac app installed from a clean checkout of a release tag calls itself `X.Y.Z`: a plugin panel or About window shows that, so you can tell which build is installed. Release builds show `X.Y.Z`. Mac apps leave the hash out: their build number is the commit count (`git rev-list --count HEAD`), which already says which commit it is, so About reads `Version 1.2.0-dev (412)` between releases and `Version 1.2.0 (412)` for a release. (keepup) This replaces the plugins' bump-after-every-change rule.
 
 Spec-driven projects (keepup) number roadmap steps on their own (`v0.N` in `docs/spec/roadmap/`). Step numbers aren't versions, and finishing a step doesn't release anything.
 
