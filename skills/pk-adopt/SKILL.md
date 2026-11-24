@@ -22,7 +22,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `name` | the folder or GitHub repo name |
 | `description` | `gh repo view --json description` |
 | `display_name` | `bundler.toml` `name`, the app's display name, or the README title |
-| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; a Cargo app that depends on `bevy` means `rust-app`; a `pyproject.toml` with a `[project] version` means `python`; otherwise `other` |
+| `stack` | `bundler.toml` + nice-plug means `vst-plugin`; `Package.swift` with an app target means `swift-app`; an XcodeGen `project.yml` with an application target means `swift-app` with `xcodegen=true`; a Cargo app that depends on `bevy` means `rust-app`; a `pyproject.toml` with a `[project] version` means `python`; otherwise `other` |
 | `app_id` | always `com.iamdanielmarino.<name>`. Note the current `CLAP_ID` or bundle ID if it differs |
 | `vst3_class_id` | always `<TypeName>DanielMarino`, cut or padded to 16. Note the current `VST3_CLASS_ID` if it differs |
 | `public` | `gh repo view --json visibility` |
@@ -31,6 +31,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 | `sponsors` | `true` for public repos, unless the user doesn't want the Sponsor button there |
 | `year` | the year of the first commit |
 | `starter` | `false` (vst-plugin, swift-app, rust-app and python), so the kit's starter-only files (example engine, golden render and UI mock, or example app and test) are never added, now or on later updates |
+| `xcodegen` | `true` if the app builds from an XcodeGen `project.yml` (swift-app only). The kit then keeps the version in its `MARKETING_VERSION` and builds with `xcodebuild`, locally only: there's no check workflow, and releases carry notes only. The project, scheme and executable must be named `<TypeName>` |
 | `goldens` | `false` if the plugin doesn't test against golden renders (vst-plugin only) |
 | `screenshot` | `false` if the editor can't be screenshotted from a mock in a browser (vst-plugin only) |
 **IDs move to the convention even when that breaks things.** If the repo's IDs differ, say exactly what will break:
@@ -38,7 +39,7 @@ Record the answers the kit would have asked for, taken from what the repo alread
 - Mac apps: macOS forgets the app's permissions, Launch at Login and preferences.
 - Rust apps: the same on macOS, and the Windows installer no longer finds the old install, so the user ends up with two.
 
-The rendered `lib.rs` (or `Info.plist`) is protected, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. If a release was already out, add a changelog line for the people who have it installed. Before a first release, skip it.
+The rendered `lib.rs` (or `Info.plist`) is protected, and an XcodeGen `project.yml` isn't the kit's at all, so change the IDs and a plugin's `VENDOR` ("Daniel Marino") there by hand, in a `fix(Plugin)!:` or `fix(App)!:` commit with a `BREAKING CHANGE:` footer. If a release was already out, add a changelog line for the people who have it installed. Before a first release, skip it.
 
 Show the table to the user and get a yes before rendering.
 
