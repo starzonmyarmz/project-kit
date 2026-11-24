@@ -127,7 +127,7 @@ Publish jobs, depending on how the project ships:
 
 | Target | How | Secret or variable |
 |---|---|---|
-| Homebrew tap | Replace `@VERSION@`/`@SHA256@` in `packaging/<name>.rb`, then push to `starzonmyarmz/homebrew-tap` as `chore(<name>): update to X.Y.Z` | `HOMEBREW_TAP_TOKEN` (hogs) |
+| Homebrew tap | No job. `packaging/<name>.rb` is a template (`@VERSION@`, `@SHA256:<file>@`) listed in `starzonmyarmz/homebrew-tap`'s `projects` file. The tap's Update workflow renders it from the latest release's `SHA256SUMS` hourly, or when `/pk-release` starts it | none |
 | itch.io | Push with butler and `--userversion X.Y.Z` | `BUTLER_API_KEY`, variable `ITCH_TARGET` |
 | GitHub Pages | Separate `pages.yml` on push to `main` (sites and docs aren't versioned) | none |
 
@@ -252,6 +252,7 @@ Done project by project with `copier update` (or `copier copy` over the repo the
   - Convert `CHANGELOG.md` headings from `## 0.N.0 — Title` to Keep a Changelog, keeping the titles as the first bullet or dropping them.
   - Add `scripts/release`.
   - Update CLAUDE.md's step-end ritual: a step ends at the human checkpoint, and releases happen when asked.
-- **hogs:** switch from automatic release-on-push to `scripts/release`, and rename `TAP_TOKEN` to `HOMEBREW_TAP_TOKEN`.
+- **hogs:** switch from automatic release-on-push to `scripts/release`.
+- **Homebrew projects:** drop the release's tap job and the `HOMEBREW_TAP_TOKEN` secret, switch `packaging/*.rb` to `@SHA256:<file>@`, and list the project in the tap's `projects` file.
 - **Commit style:** existing history stays as it is; new commits follow this file.
 - **GitHub metadata** for every repo: normalize topics to `vibe-coded`, and add descriptions to riff-raff, pod and umpire.
