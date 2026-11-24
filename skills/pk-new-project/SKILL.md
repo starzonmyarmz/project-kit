@@ -83,7 +83,7 @@ Wait for a yes before running anything.
 
 ```sh
 gh repo create starzonmyarmz/<name> --<public|private> --description "<description>" --source ~/Code/<name> --push
-gh repo edit starzonmyarmz/<name> --add-topic vibe-coded --add-topic <topic> ...
+gh repo edit starzonmyarmz/<name> --enable-wiki=false --enable-projects=false --add-topic vibe-coded --add-topic <topic> ...
 ```
 
 Topics: `vibe-coded`, plus the ones for the stack and the places it ships.

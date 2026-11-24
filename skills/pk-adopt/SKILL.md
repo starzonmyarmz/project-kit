@@ -87,4 +87,5 @@ If the repo's history predates Conventional Commits, `scripts/release` finds not
 
 After merging, offer to normalize the GitHub metadata. This is outward-facing, so ask first:
 - `gh repo edit --add-topic vibe-coded`, removing `vibecode` and `vibecoded`;
-- set the description to the README one-liner.
+- set the description to the README one-liner;
+- `gh repo edit --enable-wiki=false --enable-projects=false`, after checking the wiki has no pages worth keeping.

@@ -25,6 +25,7 @@ Set by the wizard with `gh repo create` and `gh repo edit`, and checked by `/pk-
   - The platform or kind: `macos`, `menu-bar-app`, `audio-plugin`, `vst3`, `clap`, `alfred-workflow`, `game`, `cli`.
   - The distribution: `homebrew-cask` or `homebrew-formula`, `itch-io`.
 - **Homepage:** the Pages, docs or itch URL when there is one.
+- **Wiki and Projects:** off. Docs live in the repo.
 
 ## Commits
 
