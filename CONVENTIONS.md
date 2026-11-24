@@ -114,7 +114,7 @@ scripts/release [auto|patch|minor|major|X.Y.Z] [--dry-run] [-y]
 ```
 
 1. Preflight: on `main`, clean tree, local `main` equal to `origin/main`, the tag doesn't exist yet, and `[Unreleased]` isn't empty if there are `feat`/`fix`/`perf` commits.
-2. Work out the version, write it to the source of truth, and finalize the changelog.
+2. Work out the version, write it to the source of truth, and finalize the changelog. If `scripts/pre-release.sh` exists, run it with the new version (and with `--check` during preflight), so anything that shows the version, like a plugin's README screenshot, lands in the release commit.
 3. Commit `chore(Release): X.Y.Z`, create an annotated tag `vX.Y.Z`, and push `main` and the tag.
 4. The tag-triggered `release.yml` takes over:
    - Check the tag equals the version.
@@ -152,7 +152,6 @@ The kit asks for these IDs with those defaults and saves them in `.copier-answer
 - The changelog gate runs on PRs only.
 
 Optional workflows:
-- `screenshot.yml`: retakes README screenshots on UI changes and commits them as `docs: retake the screenshot`. Path-filtered and skipped in template repos.
 - `sync-*.yml`: daily cron + `workflow_dispatch`. Regenerates data, force-pushes a fixed `sync-<thing>` branch, then opens one PR or updates it. (the Alfred workflows)
 
 Every workflow pins its toolchain (`rust-toolchain.toml`, `.node-version`, `.python-version`), so local runs match CI.
@@ -186,6 +185,7 @@ The first lines are always the same. Sections after that are used only when they
 
 - No badges, except a single CI badge on public OSS projects.
 - Screenshots are made by a script or the screenshot skill, never by hand. That way they can be retaken.
+- Screenshots are taken on your machine, committed with the UI change they show, and retaken by `scripts/release`, never by a workflow. A bot committing to `main` after every push or release leaves the local `main` behind. (sputnik)
 
 ### Agent instructions
 
