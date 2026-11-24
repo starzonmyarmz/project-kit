@@ -1,0 +1,20 @@
+name: Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+concurrency:
+  group: check-${{ '{{' }} github.ref {{ '}}' }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: swift test --package-path {{ type_name }}Kit
+      - run: brew install xcodegen
+      - run: xcodegen generate
+      - run: xcodebuild -project {{ type_name }}.xcodeproj -scheme {{ type_name }} -configuration Debug -derivedDataPath .build/xcode -skipPackagePluginValidation -quiet build

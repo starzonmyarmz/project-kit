@@ -128,6 +128,13 @@ ships:
     Homebrew formula: homebrew-formula
     itch.io: itch
     GitHub Pages site: pages
+    "Nowhere: I build and install it myself (Mac apps)": local
+  validator: "{% if 'local' in ships and (ships | length > 1 or stack != 'swift-app') %}Nowhere is for Mac apps, and on its own{% endif %}"
+
+local_only:
+  type: bool
+  default: "{{ ships == ['local'] }}"
+  when: false
 
 design_doc:
   type: bool

@@ -10,27 +10,17 @@ if [[ -n $(git status --porcelain) ]]; then
   build="$build.dirty"
 fi
 version="$(read_version)-dev+$build"
-{% if xcodegen %}
-command -v xcodegen >/dev/null || { echo "install: xcodegen is missing (brew install xcodegen)" >&2; exit 1; }
-derived=.build/xcode
-product="$derived/Build/Products/Release/{{ type_name }}.app"
 
-xcodegen generate --quiet
-xcodebuild -project {{ type_name }}.xcodeproj -scheme {{ type_name }} -configuration Release \
-  -derivedDataPath "$derived" -skipPackagePluginValidation -quiet \
-  MARKETING_VERSION="$version" CURRENT_PROJECT_VERSION="$(git rev-list --count HEAD)" build
-if [[ -n ${SIGN_IDENTITY:-} ]]; then
-  codesign --force --sign "$SIGN_IDENTITY" --preserve-metadata=entitlements,flags "$product"
-fi
+scripts/build-app.sh "$version" >/dev/null
+{%- if xcodegen %}
 osascript -e 'if application id "{{ app_id }}" is running then tell application id "{{ app_id }}" to quit'
 while pgrep -xq {{ type_name }}; do sleep 0.2; done
 rm -rf "/Applications/{{ display_name }}.app"
-ditto "$product" "/Applications/{{ display_name }}.app"
+ditto "dist/{{ display_name }}.app" "/Applications/{{ display_name }}.app"
 if [ -x scripts/install-extra.sh ]; then
   scripts/install-extra.sh
 fi
 {%- else %}
-scripts/build-app.sh "$version" >/dev/null
 osascript -e 'tell application id "{{ app_id }}" to quit' 2>/dev/null || true
 rm -rf "/Applications/{{ display_name }}.app"
 ditto "dist/{{ display_name }}.app" "/Applications/{{ display_name }}.app"

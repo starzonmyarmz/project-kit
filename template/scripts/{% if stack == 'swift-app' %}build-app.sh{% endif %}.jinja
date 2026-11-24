@@ -10,6 +10,21 @@ DIST="$ROOT/dist"
 APP="$DIST/{{ display_name }}.app"
 
 cd "$ROOT"
+{%- if xcodegen %}
+command -v xcodegen >/dev/null || { echo "build-app: xcodegen is missing (brew install xcodegen)" >&2; exit 1; }
+xcodegen generate --quiet
+xcodebuild -project {{ type_name }}.xcodeproj -scheme {{ type_name }} -configuration Release \
+  -derivedDataPath .build/xcode -skipPackagePluginValidation -quiet \
+  MARKETING_VERSION="$VERSION" CURRENT_PROJECT_VERSION="$(git rev-list --count HEAD)" build
+
+rm -rf "$DIST"
+mkdir -p "$DIST"
+ditto ".build/xcode/Build/Products/Release/{{ type_name }}.app" "$APP"
+
+codesign --force --preserve-metadata=entitlements,flags \
+  ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} \
+  --sign "${SIGN_IDENTITY:--}" "$APP"
+{%- else %}
 swift build -c release
 BIN="$(swift build -c release --show-bin-path)/{{ type_name }}"
 
@@ -26,6 +41,7 @@ rm -rf "$ICONSET"
 codesign --force --options runtime --timestamp=none \
   ${SIGN_KEYCHAIN:+--keychain "$SIGN_KEYCHAIN"} \
   --sign "${SIGN_IDENTITY:--}" "$APP"
+{%- endif %}
 codesign --verify --strict "$APP"
 
 ditto -c -k --keepParent "$APP" "$DIST/{{ name }}-$VERSION.zip"

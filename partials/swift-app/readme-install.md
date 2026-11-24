@@ -1,6 +1,10 @@
 ## Install
-{% if xcodegen %}
+{% if local_only %}
+{%- if xcodegen %}
 Build it from source with Xcode and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`):
+{%- else %}
+Build it from source with Xcode or its command line tools:
+{%- endif %}
 
 ```sh
 scripts/install.sh
