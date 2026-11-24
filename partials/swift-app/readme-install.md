@@ -1,5 +1,12 @@
 ## Install
-{% if 'homebrew-cask' in ships %}
+{% if xcodegen %}
+Build it from source with Xcode and [XcodeGen](https://github.com/yonaskolb/XcodeGen) (`brew install xcodegen`):
+
+```sh
+scripts/install.sh
+```
+{%- else %}
+{%- if 'homebrew-cask' in ships %}
 ```sh
 brew install --cask {{ owner }}/tap/{{ name }}
 ```
@@ -14,3 +21,4 @@ Requires macOS 14 or later on Apple silicon. {{ display_name }} is self-signed, 
 ```sh
 xattr -dr com.apple.quarantine "/Applications/{{ display_name }}.app"
 ```
+{%- endif %}

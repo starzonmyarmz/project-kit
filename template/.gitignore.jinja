@@ -15,6 +15,10 @@ dist/
 {%- elif stack == 'swift-app' %}
 .build/
 .swiftpm/
+{%- if xcodegen %}
+*.xcodeproj/
+xcuserdata/
+{%- endif %}
 dist/
 *.p12
 *.pem

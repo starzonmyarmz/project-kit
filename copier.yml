@@ -88,6 +88,12 @@ starter:
   default: true
   when: "{{ stack in ['vst-plugin', 'swift-app', 'rust-app', 'python'] }}"
 
+xcodegen:
+  type: bool
+  help: Build with the repo's XcodeGen project.yml and xcodebuild instead of SwiftPM alone? Only for adopting a repo that has one.
+  default: false
+  when: "{{ stack == 'swift-app' and not starter }}"
+
 goldens:
   type: bool
   help: Test the engine against golden renders (test helpers, bless-goldens skill)?
