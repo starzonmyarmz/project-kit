@@ -28,7 +28,7 @@ Run `scripts/clap-validator.sh` after any DSP change, not just in CI.
 - SVG reused through `<use>` doesn't get page CSS rules. Stamp it from a `<template>` instead, or put attributes on the elements themselves.
 - Fonts can't load from the network: embed them as base64 `@font-face` data URLs, and keep the file and its license in `ui/fonts`.
 - The macOS webview is the system WKWebView, so check a newer CSS feature is in Safari for the macOS versions you support. Windows uses WebView2.
-{% if screenshot %}- After a visible UI change, retake the screenshot with the `screenshot` skill and keep the README `alt` text current.
+{% if screenshot %}- After a visible UI change, retake the screenshot with the `screenshot` skill, commit it with the change, and keep the README `alt` text current. Nothing on GitHub retakes it.
 {%- else %}- After a visible UI change, retake the README screenshot and keep its `alt` text current.
 {%- endif %}
 

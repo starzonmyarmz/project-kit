@@ -102,7 +102,7 @@ goldens:
 
 screenshot:
   type: bool
-  help: Take the README screenshot from the editor's mock (scripts, workflow, skill)?
+  help: Take the README screenshot from the editor's mock (scripts, a release hook, skill)?
   default: true
   when: "{{ stack == 'vst-plugin' }}"
 

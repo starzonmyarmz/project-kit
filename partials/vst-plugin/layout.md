@@ -10,7 +10,7 @@
 - `ui/index.html`: the whole editor, compiled into the plugin, with a hand-written mock bridge (`mockBridge()`) for running it in a browser.
 {%- endif %}
 - `xtask/`, `bundler.toml`: nice-plug's bundler.
-{% if screenshot %}- `scripts/`: install, clap-validator, screenshot and release.
+{% if screenshot %}- `scripts/`: install, clap-validator, screenshot and release, with `pre-release.sh` retaking the screenshot for each release.
 {%- else %}- `scripts/`: install, clap-validator and release.
 {%- endif %}
 {% if screenshot and goldens %}- `.claude/skills/`: `design-kickoff` (settle the look before building the editor), `screenshot` and `bless-goldens`. Use them rather than working from memory.
