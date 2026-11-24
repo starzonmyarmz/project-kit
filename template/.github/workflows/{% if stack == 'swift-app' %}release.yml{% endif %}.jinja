@@ -27,8 +27,8 @@ jobs:
           SIGNING_CERT_PASSWORD: ${{ secrets.SIGNING_CERT_PASSWORD }}
         run: |
           if [ -z "$SIGNING_CERT_P12" ]; then
-            echo "::warning::SIGNING_CERT_P12 isn't set, so the app is signed ad hoc and macOS will forget its permissions on every update"
-            exit 0
+            echo "::error::SIGNING_CERT_P12 isn't set. An ad hoc signature would make macOS forget the app's permissions on update."
+            exit 1
           fi
           KEYCHAIN="$RUNNER_TEMP/signing.keychain-db"
           KEYCHAIN_PASSWORD="$(uuidgen)"

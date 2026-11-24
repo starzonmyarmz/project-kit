@@ -130,7 +130,7 @@ Publish jobs, depending on how the project ships:
 
 macOS builds are self-signed, not notarized:
 - One long-lived certificate per app, so Launch at Login and other permissions survive updates. (hogs)
-- Its secrets are `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD`.
+- Its secrets are `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD`. A release fails without them rather than signing ad hoc.
 - Casks remove the quarantine flag in a `postflight`.
 - The README and `INSTALL.txt` explain the `xattr -dr com.apple.quarantine` workaround.
 
