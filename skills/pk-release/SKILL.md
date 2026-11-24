@@ -47,6 +47,17 @@ gh run watch <id> --exit-status
 When it passes:
 - show the release URL (`gh release view vX.Y.Z --json url`);
 - list the assets;
-- say what the publish jobs updated (tap, itch).
+- say what the publish jobs updated (itch).
+
+If the project ships to Homebrew (`.copier-answers.yml` lists `homebrew-cask` or `homebrew-formula`, or there's a `packaging/*.rb`), update the tap now rather than waiting for its hourly run. GitHub turns off a scheduled workflow after 60 days without activity in the repo, so turn it on first:
+
+```sh
+gh workflow enable update.yml -R starzonmyarmz/homebrew-tap
+gh workflow run update.yml -R starzonmyarmz/homebrew-tap
+gh run list --workflow update.yml -R starzonmyarmz/homebrew-tap --limit 1
+gh run watch <id> -R starzonmyarmz/homebrew-tap --exit-status
+```
+
+Then confirm the tap's commit says `chore(<name>): update to X.Y.Z`. If the project isn't in the tap's `projects` file, say so and offer to add it.
 
 When it fails, show the failing step (`gh run view <id> --log-failed`) and propose a fix. Don't delete or move the tag without asking: people may already have the release.

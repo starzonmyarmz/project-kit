@@ -111,15 +111,15 @@ Add one or two topics for what it does (`cpu-monitor`, `voxel-editor`), and say 
 Never ask the user to paste a secret into the chat. For each secret the project's README lists under Releases, tell the user to type it with the `!` prefix, so the value goes straight to `gh` without passing through this conversation:
 
 ```
-! gh secret set HOMEBREW_TAP_TOKEN -R starzonmyarmz/<name>
 ! gh secret set BUTLER_API_KEY -R starzonmyarmz/<name>
 ```
 
-- `HOMEBREW_TAP_TOKEN` is a fine-grained token with Contents read and write on `starzonmyarmz/homebrew-tap`. The same token works for every project.
 - `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` (swift-app and rust-app): the user's long-lived self-signed certificate. Reuse one certificate for every app, and set the P12 base64-encoded: `! base64 -i cert.p12 | gh secret set SIGNING_CERT_P12 -R starzonmyarmz/<name>`.
 - For itch.io, also set the variable yourself: `gh variable set ITCH_TARGET -R starzonmyarmz/<name> --body "starzonmyarmz/<name>:<channel>"`. A rust-app pushes each platform to its own channel, so its `ITCH_TARGET` is just `starzonmyarmz/<name>`.
 
 Skip this step when nothing is needed. Then confirm with `gh secret list -R starzonmyarmz/<name>`.
+
+Homebrew needs no secret. For a Homebrew cask or formula, add a line for each `packaging/*.rb` to the `projects` file in `~/Code/homebrew-tap` (`<name>  packaging/<name>.rb  Casks/<name>.rb`, or `Formula/` for a formula), commit it as `feat(<name>): add to the tap`, and push. The tap renders it after the first release.
 
 ## 6. Watch the first CI run
 

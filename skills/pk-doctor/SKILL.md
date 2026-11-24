@@ -42,7 +42,8 @@ Run each with a simple command. Mark it ✅, ⚠️ (drifted, still works) or �
    - Automatically delete head branches is on.
    - With `sponsors`, Sponsorships is on: `gh api graphql -f query='{ repository(owner:"<owner>", name:"<name>") { hasSponsorshipsEnabled } }'`.
    - Topics include `vibe-coded`, not `vibecode` or `vibecoded`, plus the stack's topics from `pk-new-project`.
-   - Secrets for what the project ships are set (`gh secret list`: names only).
+   - Secrets for what the project ships are set (`gh secret list`: names only): `SIGNING_CERT_P12` and `SIGNING_CERT_PASSWORD` for swift-app and rust-app, `BUTLER_API_KEY` and the `ITCH_TARGET` variable for itch.io.
+   - With a Homebrew cask or formula: each `packaging/*.rb` is listed in `starzonmyarmz/homebrew-tap`'s `projects` file and uses `@SHA256:<file>@`, not `@SHA256@`. The release workflow has no tap job, and a leftover `HOMEBREW_TAP_TOKEN` secret is ⚠️ (delete it).
 9. **IDs.**
    - The app ID is `com.iamdanielmarino.<name>`.
    - A plugin's VST3 class ID is `<TypeName>DanielMarino`, cut or padded to 16, and its `VENDOR` is "Daniel Marino".
