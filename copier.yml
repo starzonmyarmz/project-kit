@@ -128,7 +128,7 @@ voice_doc:
 
 sponsors:
   type: bool
-  help: Show the GitHub Sponsors button (FUNDING.yml)?
+  help: Show the Sponsor button, with GitHub Sponsors and Ko-fi (FUNDING.yml)?
   default: "{{ public }}"
   when: "{{ public }}"
 
