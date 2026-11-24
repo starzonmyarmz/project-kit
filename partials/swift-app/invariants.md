@@ -1,6 +1,6 @@
 - The bundle ID `{{ app_id }}` never changes. macOS ties permissions, Launch at Login and preferences to it.
 {% if xcodegen -%}
-- The version lives only in `MARKETING_VERSION` in `project.yml`, and only `scripts/release` changes it. `scripts/install.sh` builds as `X.Y.Z-dev+<sha>`, with the commit count as the build number. Don't bump it by hand.
+- The version lives only in `MARKETING_VERSION` in `project.yml`, and only `scripts/release` changes it. `scripts/install.sh` builds as `X.Y.Z-dev`, with the commit count as the build number. Don't bump it by hand.
 - Edit `project.yml`, never the generated Xcode project, Info.plist or entitlements: `xcodegen generate` overwrites them.
 {%- else -%}
 - The version isn't stored in the repo. It comes from the release tag (`scripts/version.sh` reads the last one), and `build-app.sh` writes it into `Info.plist`. Don't add a version anywhere else.

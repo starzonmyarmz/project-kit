@@ -31,7 +31,7 @@ BIN="$(swift build -c release --show-bin-path)/{{ type_name }}"
 rm -rf "$DIST"
 mkdir -p "$APP/Contents/MacOS" "$APP/Contents/Resources"
 cp "$BIN" "$APP/Contents/MacOS/{{ type_name }}"
-sed "s/@VERSION@/$VERSION/g" packaging/Info.plist > "$APP/Contents/Info.plist"
+sed -e "s/@VERSION@/$VERSION/g" -e "s/@BUILD@/$(git rev-list --count HEAD)/g" packaging/Info.plist > "$APP/Contents/Info.plist"
 
 ICONSET="$DIST/AppIcon.iconset"
 swift scripts/make-icon.swift packaging/icon.svg "$ICONSET"
