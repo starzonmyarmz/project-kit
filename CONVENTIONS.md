@@ -19,7 +19,7 @@ Set by the wizard with `gh repo create` and `gh repo edit`, and checked by `/pk-
 
 - **Description:** one sentence, the same as the README one-liner. No trailing period unless it's two sentences.
 - **Topics:**
-  - Always `vibe-coded` **(review)**: it replaces `vibecode` and `vibecoded`.
+  - Always `vibe-coded`: it replaces `vibecode` and `vibecoded`.
   - The language or framework: `rust`, `swift`, `swiftui`, `typescript`, `python`, `preact`, `bevy-engine`.
   - The platform or kind: `macos`, `menu-bar-app`, `audio-plugin`, `vst3`, `clap`, `alfred-workflow`, `game`, `cli`.
   - The distribution: `homebrew-cask` or `homebrew-formula`, `itch-io`.
@@ -124,7 +124,7 @@ Publish jobs, depending on how the project ships:
 
 | Target | How | Secret or variable |
 |---|---|---|
-| Homebrew tap | Replace `@VERSION@`/`@SHA256@` in `packaging/homebrew/<name>.rb`, then push to `starzonmyarmz/homebrew-tap` as `chore(<name>): update to X.Y.Z` | `HOMEBREW_TAP_TOKEN` **(review)**: one name in place of hogs' `TAP_TOKEN` |
+| Homebrew tap | Replace `@VERSION@`/`@SHA256@` in `packaging/<name>.rb`, then push to `starzonmyarmz/homebrew-tap` as `chore(<name>): update to X.Y.Z` | `HOMEBREW_TAP_TOKEN` (hogs) |
 | itch.io | Push with butler and `--userversion X.Y.Z` | `BUTLER_API_KEY`, variable `ITCH_TARGET` |
 | GitHub Pages | Separate `pages.yml` on push to `main` (sites and docs aren't versioned) | none |
 
