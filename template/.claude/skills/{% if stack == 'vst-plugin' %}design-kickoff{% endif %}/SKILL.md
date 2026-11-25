@@ -34,8 +34,9 @@ and font.
 6. **Build it.** Lay out the page by hand in `ui/index.html`, with the
    font embedded as a base64 `@font-face` subset and its file and
    license in `ui/fonts`. Set `PAGE.size` and the page's outer element
-   to the same size. Print `v` plus `init`'s `version` where the user
-   chose. Then use the `screenshot` skill.
+   to the same size, with room inside for the object and its outer drop
+   shadow. Print `v` plus `init`'s `version` where the user chose. Then
+   use the `screenshot` skill, and check the shot shows the shadow.
 
 Record the decisions (object, palette, font, control names, where the
 version sits) under "This plugin" in `DESIGN.md`, so later changes keep
