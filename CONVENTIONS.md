@@ -183,6 +183,7 @@ The first lines are always the same. Sections after that are used only when they
 8. **Releases**: the bump table, what CI does, and the secrets it needs.
 9. **Credits** / **License**.
 
+- Plugins name these sections the way the existing plugins do (Ghosted, Halfwit, Sputnik): the pitch, then **How it works**, **Controls** (with each control's range), **Tips**, **Installing**, **Building**, **Tests**, **Working on the UI**, **CI and releases**, and **Built with**, which credits the nice-plug fork and the embedded fonts. GitHub shows the license, so plugins don't repeat it.
 - No badges, except a single CI badge on public OSS projects.
 - Screenshots are made by a script or the screenshot skill, never by hand. That way they can be retaken.
 - Screenshots are taken on your machine, committed with the UI change they show, and retaken by `scripts/release`, never by a workflow. A bot committing to `main` after every push or release leaves the local `main` behind. (sputnik)
